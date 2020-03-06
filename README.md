@@ -1,2 +1,2 @@
-# dotnetpro-application-insights
-Ein einfaches Beispiel für den Einsatz von Application Insights hinweg über Systemgrenzen. 
+# dotnetpro-react-tuning
+Tuning einer React-App mit Hilfe von react-use, React Bootstrap und Jest.
