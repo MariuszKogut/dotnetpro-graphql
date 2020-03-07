@@ -103,7 +103,9 @@ const CustomerDetails: FunctionComponent<Props> = props => {
 
   return (
     <>
-      <h1 className="pb-3">Kunde {name} hinzufügen</h1>
+      <h1 className="pb-3">
+        Kunde {name} {isInsertMode ? "hinzufügen" : "bearbeiten"}
+      </h1>
       <hr />
 
       <Button
