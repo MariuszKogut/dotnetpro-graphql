@@ -14,6 +14,7 @@ import {
   ValidationProblemDetails
 } from "../services/customer-client";
 import ProblemDetails, { hasErrors } from "./problem-details";
+import Button from "react-bootstrap/Button";
 
 interface Props {
   id?: number;
@@ -91,12 +92,17 @@ const CustomerDetails: FunctionComponent<Props> = props => {
     <>
       <h1 className="pb-3">Kunde {name} hinzufügen</h1>
       <hr />
-      <button className="btn btn-primary btn-lg mr-3" onClick={handleSaveClick}>
+      <Button
+        variant="primary"
+        size="lg"
+        className="mr-3"
+        onClick={handleSaveClick}
+      >
         Speichern
-      </button>
-      <button className="btn btn-secondary btn-lg" onClick={handleBackClick}>
+      </Button>
+      <Button variant="secondary" size="lg" onClick={handleBackClick}>
         Zurück
-      </button>
+      </Button>
       <hr />
 
       {error && error.length > 0 && (

@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { ICustomerModel } from "../services/customer-client";
 import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 interface Props {
   customer: ICustomerModel;
@@ -34,9 +35,13 @@ const CustomerCard: FunctionComponent<Props> = props => {
         <Link className="btn btn-secondary" to={`/customer/editor/${id}`}>
           Öffnen
         </Link>
-        <button className="btn btn-danger ml-auto" onClick={handleDeleteClick}>
+        <Button
+          variant="danger"
+          className="ml-auto"
+          onClick={handleDeleteClick}
+        >
           Löschen
-        </button>
+        </Button>
       </div>
     </div>
   );
