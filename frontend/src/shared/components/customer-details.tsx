@@ -60,18 +60,31 @@ const CustomerDetails: FunctionComponent<Props> = props => {
     loadCustomer();
   }, [loadCustomer]);
 
+  const goToList = () => history.push("/customer/list");
+
   const handleBackClick = () => history.goBack();
   const handleSaveClick = async () => {
     try {
       isInsertMode
         ? await customerClient.insert(customer)
         : await customerClient.update(customer);
-      history.push("/customer/list");
+      goToList();
     } catch (e) {
       if (e instanceof ValidationProblemDetails) {
         setProblemDetails(e);
       } else {
         setError(e.message);
+      }
+    }
+  };
+
+  const handleDeleteClick = async () => {
+    if (id && window.confirm(`Möchten Sie '${name}' wirklich löschen?`)) {
+      try {
+        await customerClient.delete(id);
+        goToList();
+      } catch (e) {
+        setError(e);
       }
     }
   };
@@ -92,6 +105,7 @@ const CustomerDetails: FunctionComponent<Props> = props => {
     <>
       <h1 className="pb-3">Kunde {name} hinzufügen</h1>
       <hr />
+
       <Button
         variant="primary"
         size="lg"
@@ -100,6 +114,16 @@ const CustomerDetails: FunctionComponent<Props> = props => {
       >
         Speichern
       </Button>
+      {!isInsertMode && (
+        <Button
+          variant="danger"
+          size="lg"
+          className="mr-3"
+          onClick={handleDeleteClick}
+        >
+          Löschen
+        </Button>
+      )}
       <Button variant="secondary" size="lg" onClick={handleBackClick}>
         Zurück
       </Button>

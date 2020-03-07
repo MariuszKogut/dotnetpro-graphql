@@ -1,24 +1,15 @@
 import React, { FunctionComponent } from "react";
 import { ICustomerModel } from "../services/customer-client";
 import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
 
 interface Props {
   customer: ICustomerModel;
-  onDelete: (id: number) => void;
 }
 
 const CustomerCard: FunctionComponent<Props> = props => {
   const {
-    customer: { name, id, location },
-    onDelete
+    customer: { name, id, location }
   } = props;
-
-  const handleDeleteClick = () => {
-    if (id && window.confirm(`Möchten Sie '${name}' wirklich löschen?`)) {
-      onDelete(id);
-    }
-  };
 
   return (
     <div className="card">
@@ -35,13 +26,6 @@ const CustomerCard: FunctionComponent<Props> = props => {
         <Link className="btn btn-secondary" to={`/customer/editor/${id}`}>
           Öffnen
         </Link>
-        <Button
-          variant="danger"
-          className="ml-auto"
-          onClick={handleDeleteClick}
-        >
-          Löschen
-        </Button>
       </div>
     </div>
   );
