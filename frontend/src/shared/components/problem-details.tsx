@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import { ValidationProblemDetails } from '../services/customer-client'
+import Form from 'react-bootstrap/Form'
 
 export const hasErrors = (
   fieldName: string,
@@ -16,7 +17,7 @@ interface Props {
   problemDetails?: ValidationProblemDetails
 }
 
-const ProblemDetails: FunctionComponent<Props> = (props) => {
+const ProblemDetails: FunctionComponent<Props> = props => {
   const { fieldName, problemDetails } = props
 
   const errors = useMemo(() => hasErrors(fieldName, problemDetails), [
@@ -27,11 +28,11 @@ const ProblemDetails: FunctionComponent<Props> = (props) => {
   return (
     <>
       {errors && errors.length > 0 && (
-        <div className="invalid-feedback">
+        <Form.Control.Feedback type="invalid">
           {errors.map((x, i) => (
             <span key={i}>{x}</span>
           ))}
-        </div>
+        </Form.Control.Feedback>
       )}
     </>
   )
