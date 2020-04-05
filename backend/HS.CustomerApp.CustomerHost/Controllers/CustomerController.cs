@@ -9,7 +9,7 @@ using Microsoft.ApplicationInsights;
 namespace HS.CustomerApp.CustomerHost.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("customer")]
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
@@ -31,9 +31,9 @@ namespace HS.CustomerApp.CustomerHost.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(CustomerModel customerModel)
+        public IActionResult Insert(CustomerModel customerModel)
         {
-            var id = await _customerService.Create(customerModel);
+            var id = _customerService.Create(customerModel);
             Track("Customer.Update", customerModel.Id);
             return Ok(id);
         }
@@ -58,7 +58,7 @@ namespace HS.CustomerApp.CustomerHost.Controllers
 
         private void Track(string eventName, long id)
         {
-            _telemetryClient.TrackEvent(eventName, new Dictionary<string, string> {{"customer-id", id.ToString()}});
+            _telemetryClient.TrackEvent(eventName, new Dictionary<string, string> { { "customer-id", id.ToString() } });
         }
     }
 }

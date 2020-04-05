@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using HS.CustomerApp.CustomerHost.Logic;
 using HS.CustomerApp.CustomerHost.Models;
-using HS.CustomerApp.IdClient;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Snapshooter.Xunit;
@@ -16,7 +15,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
         public void ShouldReturnAllCustomers()
         {
             // Arrange
-            var sut = new CustomerService(GetIdClientMock().Object, GetNullLogger());
+            var sut = new CustomerService(GetNullLogger());
 
             // Act
             var result = sut.ReadAll();
@@ -32,7 +31,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
         public void ShouldReturnSingleCustomer(long id, string expectedName)
         {
             // Arrange
-            var sut = new CustomerService(GetIdClientMock().Object, GetNullLogger());
+            var sut = new CustomerService(GetNullLogger());
 
             // Act
             var result = sut.Read(id);
@@ -46,7 +45,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
         public void ShouldDeleteCustomer()
         {
             // Arrange
-            var sut = new CustomerService(GetIdClientMock().Object, GetNullLogger());
+            var sut = new CustomerService(GetNullLogger());
 
             // Act
             sut.Delete(1);
@@ -57,10 +56,10 @@ namespace HS.CustomerApp.CustomerHost.Tests
         }
 
         [Fact]
-        public async Task ShouldAddCustomer()
+        public void ShouldAddCustomer()
         {
             // Arrange
-            var sut = new CustomerService(GetIdClientMock().Object, GetNullLogger());
+            var sut = new CustomerService(GetNullLogger());
             var customer = new CustomerModel
             {
                 Name = "Facebook",
@@ -68,7 +67,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
             };
 
             // Act
-            var id = await sut.Create(customer);
+            var id = sut.Create(customer);
 
             // Assert
             var item = sut.Read(id);
@@ -78,16 +77,16 @@ namespace HS.CustomerApp.CustomerHost.Tests
         }
 
         [Fact]
-        public async Task ShouldUpdateCustomer()
+        public void ShouldUpdateCustomer()
         {
             // Arrange
-            var sut = new CustomerService(GetIdClientMock().Object, GetNullLogger());
+            var sut = new CustomerService(GetNullLogger());
             var customer = new CustomerModel
             {
                 Name = "Facebook",
                 Location = "USA"
             };
-            var id = await sut.Create(customer);
+            var id = sut.Create(customer);
 
             // Act
             var updatedCustomer = new CustomerModel
@@ -101,13 +100,6 @@ namespace HS.CustomerApp.CustomerHost.Tests
             // Assert
             var item = sut.Read(id);
             item.Should().Be(updatedCustomer);
-        }
-
-        private static Mock<IIdClient> GetIdClientMock()
-        {
-            var idClientMock = new Mock<IIdClient>();
-            idClientMock.Setup(x => x.GenerateAsync()).ReturnsAsync(4711);
-            return idClientMock;
         }
 
         private static NullLogger<CustomerService> GetNullLogger() => new NullLogger<CustomerService>();

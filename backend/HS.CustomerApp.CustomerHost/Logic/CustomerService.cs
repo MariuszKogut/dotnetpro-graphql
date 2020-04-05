@@ -1,15 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using HS.CustomerApp.CustomerHost.Models;
-using HS.CustomerApp.IdClient;
 using Microsoft.Extensions.Logging;
 
 namespace HS.CustomerApp.CustomerHost.Logic
 {
     public class CustomerService : ICustomerService
     {
-        private readonly IIdClient _idClient;
         private readonly ILogger<CustomerService> _logger;
 
         private static readonly (string, string)[] Customers =
@@ -28,16 +25,15 @@ namespace HS.CustomerApp.CustomerHost.Logic
 
         private readonly List<CustomerModel> _data = new List<CustomerModel>();
 
-        public CustomerService(IIdClient idClient, ILogger<CustomerService> logger)
+        public CustomerService(ILogger<CustomerService> logger)
         {
-            _idClient = idClient;
             _logger = logger;
             SeedSampleData();
         }
 
-        public async Task<long> Create(CustomerModel customerModel)
+        public long Create(CustomerModel customerModel)
         {
-            var id = await _idClient.GenerateAsync();
+            var id = _data.Any() ? _data.Max(x => x.Id)  + 1 : 1;
             customerModel.Id = id;
             _data.Add(customerModel);
             return id;

@@ -5,7 +5,6 @@ using FluentValidation.AspNetCore;
 using HS.CustomerApp.CustomerHost.Logic;
 using HS.CustomerApp.CustomerHost.Models;
 using HS.CustomerApp.HostConfiguration;
-using HS.CustomerApp.IdClient;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -45,11 +44,6 @@ namespace HS.CustomerApp.CustomerHost
             services.AddHttpClient();
             services.AddSingleton<ICustomerService, CustomerService>();
             services.AddTransient<IValidator<CustomerModel>, CustomerValidator>();
-            services.AddTransient<IIdClient>(provider =>
-            {
-                var httpClient = provider.GetService<IHttpClientFactory>().CreateClient();
-                return new IdClient.IdClient(httpClient);
-            });
 
             services.AddCustomizedSwagger();
         }
