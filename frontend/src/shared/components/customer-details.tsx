@@ -15,12 +15,13 @@ import {
 } from '../services/customer-client'
 import ProblemDetails, { hasErrors } from './problem-details'
 import Button from 'react-bootstrap/Button'
+import Alert from 'react-bootstrap/Alert'
 
 interface Props {
   id?: number
 }
 
-const CustomerDetails: FunctionComponent<Props> = (props) => {
+const CustomerDetails: FunctionComponent<Props> = props => {
   const { id } = props
   const isInsertMode = id === undefined
 
@@ -132,9 +133,7 @@ const CustomerDetails: FunctionComponent<Props> = (props) => {
       <hr />
 
       {error && error.length > 0 && (
-        <div className="alert alert-danger" role="alert">
-          Es ist ein Fehler aufgetreten: {error}
-        </div>
+        <Alert variant="danger">Es ist ein Fehler aufgetreten: {error}</Alert>
       )}
 
       <form>
