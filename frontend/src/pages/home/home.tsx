@@ -2,14 +2,15 @@ import React, { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
 import { usePageTracking } from '../../shared/services/use-page-tracking'
 import { useTitle } from 'react-use'
+import { Jumbotron } from 'react-bootstrap'
 
 const HomePage: FunctionComponent = () => {
   useTitle('Home')
   usePageTracking()
 
   return (
-    <div className="jumbotron">
-      <h1 className="display-4">Willkommen!</h1>
+    <Jumbotron>
+      <h1>Willkommen!</h1>
       <p className="lead">Schön, dass Sie customer-app aufgerufen haben.</p>
       <hr className="my-4" />
       <p>
@@ -21,7 +22,7 @@ const HomePage: FunctionComponent = () => {
           Zur Kundenliste
         </Link>
       </p>
-    </div>
+    </Jumbotron>
   )
 }
 
