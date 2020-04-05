@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { ICustomerModel } from '../services/customer-client'
-import { Link } from 'react-router-dom'
 import LinkButton from './link-button'
+import Card from 'react-bootstrap/Card'
+import ListGroup from 'react-bootstrap/ListGroup'
 
 interface Props {
   customer: ICustomerModel
@@ -13,22 +14,22 @@ const CustomerCard: FunctionComponent<Props> = props => {
   } = props
 
   return (
-    <div className="card">
-      <div className="card-header font-weight-bold">{name}</div>
-      <ul className="list-group list-group-flush">
-        <li className="list-group-item">
+    <Card className="card">
+      <Card.Header className="font-weight-bold">{name}</Card.Header>
+      <ListGroup variant="flush">
+        <ListGroup.Item>
           <span className="text-muted">#</span> {id}
-        </li>
-        <li className="list-group-item">
+        </ListGroup.Item>
+        <ListGroup.Item>
           <span className="text-muted">Location</span> {location}
-        </li>
-      </ul>
-      <div className="card-body d-flex">
+        </ListGroup.Item>
+      </ListGroup>
+      <Card.Body className="d-flex">
         <LinkButton to={`/customer/editor/${id}`} variant="secondary">
           Öffnen
         </LinkButton>
-      </div>
-    </div>
+      </Card.Body>
+    </Card>
   )
 }
 
