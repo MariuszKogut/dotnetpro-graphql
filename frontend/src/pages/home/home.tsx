@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react'
-import { Link } from 'react-router-dom'
 import { usePageTracking } from '../../shared/services/use-page-tracking'
 import { useTitle } from 'react-use'
 import { Jumbotron } from 'react-bootstrap'
+import LinkButton from '../../shared/components/link-button'
 
 const HomePage: FunctionComponent = () => {
   useTitle('Home')
@@ -18,9 +18,9 @@ const HomePage: FunctionComponent = () => {
         .NET Core im Backend.
       </p>
       <p className="lead">
-        <Link to="/customer/list" className="btn btn-primary btn-lg">
+        <LinkButton to="/customer/list" variant="primary" size="lg">
           Zur Kundenliste
-        </Link>
+        </LinkButton>
       </p>
     </Jumbotron>
   )

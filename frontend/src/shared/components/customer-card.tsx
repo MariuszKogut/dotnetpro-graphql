@@ -1,12 +1,13 @@
 import React, { FunctionComponent } from 'react'
 import { ICustomerModel } from '../services/customer-client'
 import { Link } from 'react-router-dom'
+import LinkButton from './link-button'
 
 interface Props {
   customer: ICustomerModel
 }
 
-const CustomerCard: FunctionComponent<Props> = (props) => {
+const CustomerCard: FunctionComponent<Props> = props => {
   const {
     customer: { name, id, location },
   } = props
@@ -23,9 +24,9 @@ const CustomerCard: FunctionComponent<Props> = (props) => {
         </li>
       </ul>
       <div className="card-body d-flex">
-        <Link className="btn btn-secondary" to={`/customer/editor/${id}`}>
+        <LinkButton to={`/customer/editor/${id}`} variant="secondary">
           Öffnen
-        </Link>
+        </LinkButton>
       </div>
     </div>
   )

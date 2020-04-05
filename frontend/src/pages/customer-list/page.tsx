@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react'
 import CustomerList from '../../shared/components/customer-list'
-import { Link } from 'react-router-dom'
 import { usePageTracking } from '../../shared/services/use-page-tracking'
 import { useTitle } from 'react-use'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import LinkButton from '../../shared/components/link-button'
 
 const CustomerListPage: FunctionComponent = () => {
   useTitle('Kundenliste')
@@ -17,9 +17,9 @@ const CustomerListPage: FunctionComponent = () => {
         <Col>
           <h1 className="pb-3">Kundenliste</h1>
           <hr />
-          <Link to="/customer/new" className="btn btn-primary btn-lg">
+          <LinkButton to="/customer/new" variant="primary" size="lg">
             Kunde hinzufügen
-          </Link>
+          </LinkButton>
           <hr />
         </Col>
       </Row>
