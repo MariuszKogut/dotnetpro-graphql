@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useMemo, useState } from 'react'
 import { CustomerClient, ICustomerModel } from '../services/customer-client'
 import { LoadingState } from './loading-state'
 import CustomerCard from './customer-card'
+import Col from 'react-bootstrap/Col'
 
 const CustomerList: FunctionComponent = () => {
   const [loadingState, setLoadingState] = useState<LoadingState>(
@@ -36,20 +37,20 @@ const CustomerList: FunctionComponent = () => {
   switch (loadingState) {
     case LoadingState.Loading:
       return (
-        <div className="col-12">
+        <Col>
           <div className="spinner-border" role="status">
             <span className="sr-only">Daten werden geladen...</span>
           </div>
-        </div>
+        </Col>
       )
 
     case LoadingState.Error:
       return (
-        <div className="col-12">
+        <Col>
           <div className="alert alert-danger" role="alert">
             Es ist ein Fehler aufgetreten: {error}
           </div>
-        </div>
+        </Col>
       )
 
     case LoadingState.NoData:
@@ -59,10 +60,10 @@ const CustomerList: FunctionComponent = () => {
       return (
         <>
           {data &&
-            data.map((x) => (
-              <div className="col-md-3 py-3" key={x.id}>
+            data.map(x => (
+              <Col md={3} className="py-3">
                 <CustomerCard customer={x} />
-              </div>
+              </Col>
             ))}
         </>
       )
