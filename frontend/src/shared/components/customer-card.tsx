@@ -1,15 +1,15 @@
-import React, { FunctionComponent } from "react";
-import { ICustomerModel } from "../services/customer-client";
-import { Link } from "react-router-dom";
+import React, { FunctionComponent } from 'react'
+import { ICustomerModel } from '../services/customer-client'
+import { Link } from 'react-router-dom'
 
 interface Props {
-  customer: ICustomerModel;
+  customer: ICustomerModel
 }
 
-const CustomerCard: FunctionComponent<Props> = props => {
+const CustomerCard: FunctionComponent<Props> = (props) => {
   const {
-    customer: { name, id, location }
-  } = props;
+    customer: { name, id, location },
+  } = props
 
   return (
     <div className="card">
@@ -28,7 +28,7 @@ const CustomerCard: FunctionComponent<Props> = props => {
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CustomerCard;
+export default CustomerCard

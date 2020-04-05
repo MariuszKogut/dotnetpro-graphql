@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useMemo } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
+import React, { FunctionComponent, useMemo } from 'react'
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
 
 const Footer: FunctionComponent = () => {
-  const year = useMemo<number>(() => new Date().getFullYear(), []);
+  const year = useMemo<number>(() => new Date().getFullYear(), [])
 
   return (
     <footer className="p-3">
@@ -11,7 +11,7 @@ const Footer: FunctionComponent = () => {
         <Nav className="mr-auto">© {year}</Nav>
       </Navbar>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

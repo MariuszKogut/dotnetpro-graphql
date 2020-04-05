@@ -9,461 +9,460 @@
 
 export class CustomerClient {
   private http: {
-    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-  };
-  private baseUrl: string;
+    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
+  }
+  private baseUrl: string
   protected jsonParseReviver:
     | ((key: string, value: any) => any)
-    | undefined = undefined;
+    | undefined = undefined
 
   constructor(
     baseUrl?: string,
-    http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }
+    http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> },
   ) {
-    this.http = http ? http : <any>window;
-    this.baseUrl = baseUrl ? baseUrl : "https://localhost:5011/";
+    this.http = http ? http : <any>window
+    this.baseUrl = baseUrl ? baseUrl : 'https://localhost:5011/'
   }
 
   getAll(): Promise<CustomerModel[]> {
-    let url_ = this.baseUrl + "/Customer";
-    url_ = url_.replace(/[?&]$/, "");
+    let url_ = this.baseUrl + '/Customer'
+    url_ = url_.replace(/[?&]$/, '')
 
     let options_ = <RequestInit>{
-      method: "GET",
+      method: 'GET',
       headers: {
-        Accept: "application/json"
-      }
-    };
+        Accept: 'application/json',
+      },
+    }
 
     return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetAll(_response);
-    });
+      return this.processGetAll(_response)
+    })
   }
 
   protected processGetAll(response: Response): Promise<CustomerModel[]> {
-    const status = response.status;
-    let _headers: any = {};
+    const status = response.status
+    let _headers: any = {}
     if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v))
     }
     if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
+      return response.text().then((_responseText) => {
+        let result200: any = null
         let resultData200 =
-          _responseText === ""
+          _responseText === ''
             ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
+            : JSON.parse(_responseText, this.jsonParseReviver)
         if (Array.isArray(resultData200)) {
-          result200 = [] as any;
+          result200 = [] as any
           for (let item of resultData200)
-            result200!.push(CustomerModel.fromJS(item));
+            result200!.push(CustomerModel.fromJS(item))
         }
-        return result200;
-      });
+        return result200
+      })
     } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
+      return response.text().then((_responseText) => {
         return throwException(
-          "An unexpected server error occurred.",
+          'An unexpected server error occurred.',
           status,
           _responseText,
-          _headers
-        );
-      });
+          _headers,
+        )
+      })
     }
-    return Promise.resolve<CustomerModel[]>(<any>null);
+    return Promise.resolve<CustomerModel[]>(<any>null)
   }
 
   insert(customerModel: CustomerModel): Promise<void> {
-    let url_ = this.baseUrl + "/Customer";
-    url_ = url_.replace(/[?&]$/, "");
+    let url_ = this.baseUrl + '/Customer'
+    url_ = url_.replace(/[?&]$/, '')
 
-    const content_ = JSON.stringify(customerModel);
+    const content_ = JSON.stringify(customerModel)
 
     let options_ = <RequestInit>{
       body: content_,
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
-      }
-    };
+        'Content-Type': 'application/json',
+      },
+    }
 
     return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processInsert(_response);
-    });
+      return this.processInsert(_response)
+    })
   }
 
   protected processInsert(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
+    const status = response.status
+    let _headers: any = {}
     if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v))
     }
     if (status === 200) {
-      return response.text().then(_responseText => {
-        return;
-      });
+      return response.text().then((_responseText) => {
+        return
+      })
     } else if (status === 400) {
-      return response.text().then(_responseText => {
-        let result400: any = null;
+      return response.text().then((_responseText) => {
+        let result400: any = null
         let resultData400 =
-          _responseText === ""
+          _responseText === ''
             ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result400 = ValidationProblemDetails.fromJS(resultData400);
+            : JSON.parse(_responseText, this.jsonParseReviver)
+        result400 = ValidationProblemDetails.fromJS(resultData400)
         return throwException(
-          "A server side error occurred.",
+          'A server side error occurred.',
           status,
           _responseText,
           _headers,
-          result400
-        );
-      });
+          result400,
+        )
+      })
     } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
+      return response.text().then((_responseText) => {
         return throwException(
-          "An unexpected server error occurred.",
+          'An unexpected server error occurred.',
           status,
           _responseText,
-          _headers
-        );
-      });
+          _headers,
+        )
+      })
     }
-    return Promise.resolve<void>(<any>null);
+    return Promise.resolve<void>(<any>null)
   }
 
   update(customerModel: CustomerModel): Promise<void> {
-    let url_ = this.baseUrl + "/Customer";
-    url_ = url_.replace(/[?&]$/, "");
+    let url_ = this.baseUrl + '/Customer'
+    url_ = url_.replace(/[?&]$/, '')
 
-    const content_ = JSON.stringify(customerModel);
+    const content_ = JSON.stringify(customerModel)
 
     let options_ = <RequestInit>{
       body: content_,
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json"
-      }
-    };
+        'Content-Type': 'application/json',
+      },
+    }
 
     return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processUpdate(_response);
-    });
+      return this.processUpdate(_response)
+    })
   }
 
   protected processUpdate(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
+    const status = response.status
+    let _headers: any = {}
     if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v))
     }
     if (status === 200) {
-      return response.text().then(_responseText => {
-        return;
-      });
+      return response.text().then((_responseText) => {
+        return
+      })
     } else if (status === 400) {
-      return response.text().then(_responseText => {
-        let result400: any = null;
+      return response.text().then((_responseText) => {
+        let result400: any = null
         let resultData400 =
-          _responseText === ""
+          _responseText === ''
             ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result400 = ValidationProblemDetails.fromJS(resultData400);
+            : JSON.parse(_responseText, this.jsonParseReviver)
+        result400 = ValidationProblemDetails.fromJS(resultData400)
         return throwException(
-          "A server side error occurred.",
+          'A server side error occurred.',
           status,
           _responseText,
           _headers,
-          result400
-        );
-      });
+          result400,
+        )
+      })
     } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
+      return response.text().then((_responseText) => {
         return throwException(
-          "An unexpected server error occurred.",
+          'An unexpected server error occurred.',
           status,
           _responseText,
-          _headers
-        );
-      });
+          _headers,
+        )
+      })
     }
-    return Promise.resolve<void>(<any>null);
+    return Promise.resolve<void>(<any>null)
   }
 
   delete(id: number | undefined): Promise<void> {
-    let url_ = this.baseUrl + "/Customer?";
-    if (id === null) throw new Error("The parameter 'id' cannot be null.");
-    else if (id !== undefined)
-      url_ += "id=" + encodeURIComponent("" + id) + "&";
-    url_ = url_.replace(/[?&]$/, "");
+    let url_ = this.baseUrl + '/Customer?'
+    if (id === null) throw new Error("The parameter 'id' cannot be null.")
+    else if (id !== undefined) url_ += 'id=' + encodeURIComponent('' + id) + '&'
+    url_ = url_.replace(/[?&]$/, '')
 
     let options_ = <RequestInit>{
-      method: "DELETE",
-      headers: {}
-    };
+      method: 'DELETE',
+      headers: {},
+    }
 
     return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processDelete(_response);
-    });
+      return this.processDelete(_response)
+    })
   }
 
   protected processDelete(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
+    const status = response.status
+    let _headers: any = {}
     if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v))
     }
     if (status === 200) {
-      return response.text().then(_responseText => {
-        return;
-      });
+      return response.text().then((_responseText) => {
+        return
+      })
     } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
+      return response.text().then((_responseText) => {
         return throwException(
-          "An unexpected server error occurred.",
+          'An unexpected server error occurred.',
           status,
           _responseText,
-          _headers
-        );
-      });
+          _headers,
+        )
+      })
     }
-    return Promise.resolve<void>(<any>null);
+    return Promise.resolve<void>(<any>null)
   }
 
   get(id: number): Promise<CustomerModel> {
-    let url_ = this.baseUrl + "/Customer/{id}";
+    let url_ = this.baseUrl + '/Customer/{id}'
     if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace("{id}", encodeURIComponent("" + id));
-    url_ = url_.replace(/[?&]$/, "");
+      throw new Error("The parameter 'id' must be defined.")
+    url_ = url_.replace('{id}', encodeURIComponent('' + id))
+    url_ = url_.replace(/[?&]$/, '')
 
     let options_ = <RequestInit>{
-      method: "GET",
+      method: 'GET',
       headers: {
-        Accept: "application/json"
-      }
-    };
+        Accept: 'application/json',
+      },
+    }
 
     return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGet(_response);
-    });
+      return this.processGet(_response)
+    })
   }
 
   protected processGet(response: Response): Promise<CustomerModel> {
-    const status = response.status;
-    let _headers: any = {};
+    const status = response.status
+    let _headers: any = {}
     if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v))
     }
     if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
+      return response.text().then((_responseText) => {
+        let result200: any = null
         let resultData200 =
-          _responseText === ""
+          _responseText === ''
             ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = CustomerModel.fromJS(resultData200);
-        return result200;
-      });
+            : JSON.parse(_responseText, this.jsonParseReviver)
+        result200 = CustomerModel.fromJS(resultData200)
+        return result200
+      })
     } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
+      return response.text().then((_responseText) => {
         return throwException(
-          "An unexpected server error occurred.",
+          'An unexpected server error occurred.',
           status,
           _responseText,
-          _headers
-        );
-      });
+          _headers,
+        )
+      })
     }
-    return Promise.resolve<CustomerModel>(<any>null);
+    return Promise.resolve<CustomerModel>(<any>null)
   }
 }
 
 export class CustomerModel implements ICustomerModel {
-  id?: number;
-  name?: string | undefined;
-  location?: string | undefined;
+  id?: number
+  name?: string | undefined
+  location?: string | undefined
 
   constructor(data?: ICustomerModel) {
     if (data) {
       for (var property in data) {
         if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
+          (<any>this)[property] = (<any>data)[property]
       }
     }
   }
 
   init(_data?: any) {
     if (_data) {
-      this.id = _data["id"];
-      this.name = _data["name"];
-      this.location = _data["location"];
+      this.id = _data['id']
+      this.name = _data['name']
+      this.location = _data['location']
     }
   }
 
   static fromJS(data: any): CustomerModel {
-    data = typeof data === "object" ? data : {};
-    let result = new CustomerModel();
-    result.init(data);
-    return result;
+    data = typeof data === 'object' ? data : {}
+    let result = new CustomerModel()
+    result.init(data)
+    return result
   }
 
   toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["id"] = this.id;
-    data["name"] = this.name;
-    data["location"] = this.location;
-    return data;
+    data = typeof data === 'object' ? data : {}
+    data['id'] = this.id
+    data['name'] = this.name
+    data['location'] = this.location
+    return data
   }
 }
 
 export interface ICustomerModel {
-  id?: number;
-  name?: string | undefined;
-  location?: string | undefined;
+  id?: number
+  name?: string | undefined
+  location?: string | undefined
 }
 
 export class ProblemDetails implements IProblemDetails {
-  type?: string | undefined;
-  title?: string | undefined;
-  status?: number | undefined;
-  detail?: string | undefined;
-  instance?: string | undefined;
-  extensions?: { [key: string]: any } | undefined;
+  type?: string | undefined
+  title?: string | undefined
+  status?: number | undefined
+  detail?: string | undefined
+  instance?: string | undefined
+  extensions?: { [key: string]: any } | undefined
 
   constructor(data?: IProblemDetails) {
     if (data) {
       for (var property in data) {
         if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
+          (<any>this)[property] = (<any>data)[property]
       }
     }
   }
 
   init(_data?: any) {
     if (_data) {
-      this.type = _data["type"];
-      this.title = _data["title"];
-      this.status = _data["status"];
-      this.detail = _data["detail"];
-      this.instance = _data["instance"];
-      if (_data["extensions"]) {
-        this.extensions = {} as any;
-        for (let key in _data["extensions"]) {
-          if (_data["extensions"].hasOwnProperty(key))
-            this.extensions![key] = _data["extensions"][key];
+      this.type = _data['type']
+      this.title = _data['title']
+      this.status = _data['status']
+      this.detail = _data['detail']
+      this.instance = _data['instance']
+      if (_data['extensions']) {
+        this.extensions = {} as any
+        for (let key in _data['extensions']) {
+          if (_data['extensions'].hasOwnProperty(key))
+            this.extensions![key] = _data['extensions'][key]
         }
       }
     }
   }
 
   static fromJS(data: any): ProblemDetails {
-    data = typeof data === "object" ? data : {};
-    let result = new ProblemDetails();
-    result.init(data);
-    return result;
+    data = typeof data === 'object' ? data : {}
+    let result = new ProblemDetails()
+    result.init(data)
+    return result
   }
 
   toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["type"] = this.type;
-    data["title"] = this.title;
-    data["status"] = this.status;
-    data["detail"] = this.detail;
-    data["instance"] = this.instance;
+    data = typeof data === 'object' ? data : {}
+    data['type'] = this.type
+    data['title'] = this.title
+    data['status'] = this.status
+    data['detail'] = this.detail
+    data['instance'] = this.instance
     if (this.extensions) {
-      data["extensions"] = {};
+      data['extensions'] = {}
       for (let key in this.extensions) {
         if (this.extensions.hasOwnProperty(key))
-          data["extensions"][key] = this.extensions[key];
+          data['extensions'][key] = this.extensions[key]
       }
     }
-    return data;
+    return data
   }
 }
 
 export interface IProblemDetails {
-  type?: string | undefined;
-  title?: string | undefined;
-  status?: number | undefined;
-  detail?: string | undefined;
-  instance?: string | undefined;
-  extensions?: { [key: string]: any } | undefined;
+  type?: string | undefined
+  title?: string | undefined
+  status?: number | undefined
+  detail?: string | undefined
+  instance?: string | undefined
+  extensions?: { [key: string]: any } | undefined
 }
 
 export class ValidationProblemDetails extends ProblemDetails
   implements IValidationProblemDetails {
-  errors?: { [key: string]: string[] } | undefined;
+  errors?: { [key: string]: string[] } | undefined
 
   constructor(data?: IValidationProblemDetails) {
-    super(data);
+    super(data)
   }
 
   init(_data?: any) {
-    super.init(_data);
+    super.init(_data)
     if (_data) {
-      if (_data["errors"]) {
-        this.errors = {} as any;
-        for (let key in _data["errors"]) {
-          if (_data["errors"].hasOwnProperty(key))
+      if (_data['errors']) {
+        this.errors = {} as any
+        for (let key in _data['errors']) {
+          if (_data['errors'].hasOwnProperty(key))
             this.errors![key] =
-              _data["errors"][key] !== undefined ? _data["errors"][key] : [];
+              _data['errors'][key] !== undefined ? _data['errors'][key] : []
         }
       }
     }
   }
 
   static fromJS(data: any): ValidationProblemDetails {
-    data = typeof data === "object" ? data : {};
-    let result = new ValidationProblemDetails();
-    result.init(data);
-    return result;
+    data = typeof data === 'object' ? data : {}
+    let result = new ValidationProblemDetails()
+    result.init(data)
+    return result
   }
 
   toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
+    data = typeof data === 'object' ? data : {}
     if (this.errors) {
-      data["errors"] = {};
+      data['errors'] = {}
       for (let key in this.errors) {
         if (this.errors.hasOwnProperty(key))
-          data["errors"][key] = this.errors[key];
+          data['errors'][key] = this.errors[key]
       }
     }
-    super.toJSON(data);
-    return data;
+    super.toJSON(data)
+    return data
   }
 }
 
 export interface IValidationProblemDetails extends IProblemDetails {
-  errors?: { [key: string]: string[] } | undefined;
+  errors?: { [key: string]: string[] } | undefined
 }
 
 export class ApiException extends Error {
-  message: string;
-  status: number;
-  response: string;
-  headers: { [key: string]: any };
-  result: any;
+  message: string
+  status: number
+  response: string
+  headers: { [key: string]: any }
+  result: any
 
   constructor(
     message: string,
     status: number,
     response: string,
     headers: { [key: string]: any },
-    result: any
+    result: any,
   ) {
-    super();
+    super()
 
-    this.message = message;
-    this.status = status;
-    this.response = response;
-    this.headers = headers;
-    this.result = result;
+    this.message = message
+    this.status = status
+    this.response = response
+    this.headers = headers
+    this.result = result
   }
 
-  protected isApiException = true;
+  protected isApiException = true
 
   static isApiException(obj: any): obj is ApiException {
-    return obj.isApiException === true;
+    return obj.isApiException === true
   }
 }
 
@@ -472,8 +471,8 @@ function throwException(
   status: number,
   response: string,
   headers: { [key: string]: any },
-  result?: any
+  result?: any,
 ): any {
-  if (result !== null && result !== undefined) throw result;
-  else throw new ApiException(message, status, response, headers, null);
+  if (result !== null && result !== undefined) throw result
+  else throw new ApiException(message, status, response, headers, null)
 }

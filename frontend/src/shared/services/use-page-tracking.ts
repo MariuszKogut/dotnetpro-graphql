@@ -1,6 +1,6 @@
-import { useApplicationInsightsContext } from "./analytics";
+import { useApplicationInsightsContext } from './analytics'
 
 export const usePageTracking = () => {
-  const {instance} = useApplicationInsightsContext();
-  instance.trackPageView();
+  const { instance } = useApplicationInsightsContext()
+  instance.trackPageView()
 }

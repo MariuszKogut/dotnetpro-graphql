@@ -1,6 +1,6 @@
 export const config = {
   applicationInsights: {
-    instrumentationKey: "xxx",
-    roleName: "WebFrontend",
-  }
-} as const;
+    instrumentationKey: 'xxx',
+    roleName: 'WebFrontend',
+  },
+} as const

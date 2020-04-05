@@ -1,28 +1,28 @@
-import React, { FunctionComponent, useMemo } from "react";
-import { ValidationProblemDetails } from "../services/customer-client";
+import React, { FunctionComponent, useMemo } from 'react'
+import { ValidationProblemDetails } from '../services/customer-client'
 
 export const hasErrors = (
   fieldName: string,
-  problemDetails?: ValidationProblemDetails
+  problemDetails?: ValidationProblemDetails,
 ) =>
   problemDetails &&
   problemDetails.errors &&
   problemDetails.errors.hasOwnProperty(fieldName)
     ? problemDetails.errors[fieldName]
-    : [];
+    : []
 
 interface Props {
-  fieldName: string;
-  problemDetails?: ValidationProblemDetails;
+  fieldName: string
+  problemDetails?: ValidationProblemDetails
 }
 
-const ProblemDetails: FunctionComponent<Props> = props => {
-  const { fieldName, problemDetails } = props;
+const ProblemDetails: FunctionComponent<Props> = (props) => {
+  const { fieldName, problemDetails } = props
 
   const errors = useMemo(() => hasErrors(fieldName, problemDetails), [
     fieldName,
-    problemDetails
-  ]);
+    problemDetails,
+  ])
 
   return (
     <>
@@ -34,7 +34,7 @@ const ProblemDetails: FunctionComponent<Props> = props => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default ProblemDetails;
+export default ProblemDetails

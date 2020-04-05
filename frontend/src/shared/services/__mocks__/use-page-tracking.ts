@@ -1,1 +1,1 @@
-export const usePageTracking = jest.fn();
+export const usePageTracking = jest.fn()

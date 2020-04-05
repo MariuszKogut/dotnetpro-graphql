@@ -1,37 +1,37 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from "react";
-import { CustomerClient, ICustomerModel } from "../services/customer-client";
-import { LoadingState } from "./loading-state";
-import CustomerCard from "./customer-card";
+import React, { FunctionComponent, useEffect, useMemo, useState } from 'react'
+import { CustomerClient, ICustomerModel } from '../services/customer-client'
+import { LoadingState } from './loading-state'
+import CustomerCard from './customer-card'
 
 const CustomerList: FunctionComponent = () => {
   const [loadingState, setLoadingState] = useState<LoadingState>(
-    LoadingState.Loading
-  );
-  const [data, setData] = useState<ICustomerModel[]>();
-  const [error, setError] = useState<string>();
+    LoadingState.Loading,
+  )
+  const [data, setData] = useState<ICustomerModel[]>()
+  const [error, setError] = useState<string>()
 
   const customerClient = useMemo<CustomerClient>(
-    () => new CustomerClient("https://localhost:5001"),
-    []
-  );
+    () => new CustomerClient('https://localhost:5001'),
+    [],
+  )
 
   useEffect(() => {
     const loadCustomer = async () => {
-      setLoadingState(LoadingState.Loading);
+      setLoadingState(LoadingState.Loading)
       try {
-        const result = await customerClient.getAll();
-        setData(result);
+        const result = await customerClient.getAll()
+        setData(result)
         setLoadingState(
-          result.length > 0 ? LoadingState.HasData : LoadingState.NoData
-        );
+          result.length > 0 ? LoadingState.HasData : LoadingState.NoData,
+        )
       } catch (e) {
-        setError(e.message);
-        setLoadingState(LoadingState.Error);
+        setError(e.message)
+        setLoadingState(LoadingState.Error)
       }
-    };
+    }
 
-    loadCustomer();
-  }, [customerClient]);
+    loadCustomer()
+  }, [customerClient])
 
   switch (loadingState) {
     case LoadingState.Loading:
@@ -41,7 +41,7 @@ const CustomerList: FunctionComponent = () => {
             <span className="sr-only">Daten werden geladen...</span>
           </div>
         </div>
-      );
+      )
 
     case LoadingState.Error:
       return (
@@ -50,23 +50,23 @@ const CustomerList: FunctionComponent = () => {
             Es ist ein Fehler aufgetreten: {error}
           </div>
         </div>
-      );
+      )
 
     case LoadingState.NoData:
-      return <>Keine Daten vorhanden</>;
+      return <>Keine Daten vorhanden</>
 
     case LoadingState.HasData:
       return (
         <>
           {data &&
-            data.map(x => (
+            data.map((x) => (
               <div className="col-md-3 py-3" key={x.id}>
                 <CustomerCard customer={x} />
               </div>
             ))}
         </>
-      );
+      )
   }
-};
+}
 
-export default CustomerList;
+export default CustomerList

@@ -33,7 +33,7 @@ namespace HS.CustomerApp.CustomerHost.Logic
 
         public long Create(CustomerModel customerModel)
         {
-            var id = _data.Any() ? _data.Max(x => x.Id)  + 1 : 1;
+            var id = _data.Any() ? _data.Max(x => x.Id) + 1 : 1;
             customerModel.Id = id;
             _data.Add(customerModel);
             return id;

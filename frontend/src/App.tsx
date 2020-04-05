@@ -1,13 +1,13 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.css'
 
-import React from "react";
-import Header from "./shared/components/header";
-import Footer from "./shared/components/footer";
-import HomePage from "./pages/home/home";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import CustomerListPage from "./pages/customer-list/page";
-import CustomerDetailsPage from "./pages/customer-details/page";
+import React from 'react'
+import Header from './shared/components/header'
+import Footer from './shared/components/footer'
+import HomePage from './pages/home/home'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import CustomerListPage from './pages/customer-list/page'
+import CustomerDetailsPage from './pages/customer-details/page'
 
 const App: React.FC = () => {
   return (
@@ -31,7 +31,7 @@ const App: React.FC = () => {
       </main>
       <Footer />
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default App;
+export default App

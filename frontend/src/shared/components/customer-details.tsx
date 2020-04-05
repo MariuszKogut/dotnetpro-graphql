@@ -4,107 +4,107 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useState
-} from "react";
-import classNames from "classnames";
-import { useHistory } from "react-router-dom";
+  useState,
+} from 'react'
+import classNames from 'classnames'
+import { useHistory } from 'react-router-dom'
 import {
   CustomerClient,
   CustomerModel,
-  ValidationProblemDetails
-} from "../services/customer-client";
-import ProblemDetails, { hasErrors } from "./problem-details";
-import Button from "react-bootstrap/Button";
+  ValidationProblemDetails,
+} from '../services/customer-client'
+import ProblemDetails, { hasErrors } from './problem-details'
+import Button from 'react-bootstrap/Button'
 
 interface Props {
-  id?: number;
+  id?: number
 }
 
-const CustomerDetails: FunctionComponent<Props> = props => {
-  const { id } = props;
-  const isInsertMode = id === undefined;
+const CustomerDetails: FunctionComponent<Props> = (props) => {
+  const { id } = props
+  const isInsertMode = id === undefined
 
-  const history = useHistory();
+  const history = useHistory()
 
   const [customer, setCustomer] = useState<CustomerModel>(() => {
-    const customer = new CustomerModel();
-    customer.id = isInsertMode ? undefined : id;
-    customer.name = "";
-    customer.location = "";
-    return customer;
-  });
-  const { name, location } = customer;
+    const customer = new CustomerModel()
+    customer.id = isInsertMode ? undefined : id
+    customer.name = ''
+    customer.location = ''
+    return customer
+  })
+  const { name, location } = customer
 
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<string>()
   const [problemDetails, setProblemDetails] = useState<
     ValidationProblemDetails
-  >();
+  >()
 
   const customerClient = useMemo<CustomerClient>(
-    () => new CustomerClient("https://localhost:5001"),
-    []
-  );
+    () => new CustomerClient('https://localhost:5001'),
+    [],
+  )
 
   const loadCustomer = useCallback(async () => {
     if (id && id > 0) {
       try {
-        const customer = await customerClient.get(id);
-        setCustomer(customer);
+        const customer = await customerClient.get(id)
+        setCustomer(customer)
       } catch (e) {
-        setError(e.message);
+        setError(e.message)
       }
     }
-  }, [id, customerClient]);
+  }, [id, customerClient])
 
   useEffect(() => {
-    loadCustomer();
-  }, [loadCustomer]);
+    loadCustomer()
+  }, [loadCustomer])
 
-  const goToList = () => history.push("/customer/list");
+  const goToList = () => history.push('/customer/list')
 
-  const handleBackClick = () => history.goBack();
+  const handleBackClick = () => history.goBack()
   const handleSaveClick = async () => {
     try {
       isInsertMode
         ? await customerClient.insert(customer)
-        : await customerClient.update(customer);
-      goToList();
+        : await customerClient.update(customer)
+      goToList()
     } catch (e) {
       if (e instanceof ValidationProblemDetails) {
-        setProblemDetails(e);
+        setProblemDetails(e)
       } else {
-        setError(e.message);
+        setError(e.message)
       }
     }
-  };
+  }
 
   const handleDeleteClick = async () => {
     if (id && window.confirm(`Möchten Sie '${name}' wirklich löschen?`)) {
       try {
-        await customerClient.delete(id);
-        goToList();
+        await customerClient.delete(id)
+        goToList()
       } catch (e) {
-        setError(e);
+        setError(e)
       }
     }
-  };
+  }
 
   const handleNameChanged = (e: FormEvent<HTMLInputElement>) => {
-    const changedCustomer = new CustomerModel();
-    changedCustomer.init({ ...customer, name: e.currentTarget.value });
-    setCustomer(changedCustomer);
-  };
+    const changedCustomer = new CustomerModel()
+    changedCustomer.init({ ...customer, name: e.currentTarget.value })
+    setCustomer(changedCustomer)
+  }
 
   const handleLocationChanged = (e: FormEvent<HTMLInputElement>) => {
-    const changedCustomer = new CustomerModel();
-    changedCustomer.init({ ...customer, location: e.currentTarget.value });
-    setCustomer(changedCustomer);
-  };
+    const changedCustomer = new CustomerModel()
+    changedCustomer.init({ ...customer, location: e.currentTarget.value })
+    setCustomer(changedCustomer)
+  }
 
   return (
     <>
       <h1 className="pb-3">
-        Kunde {name} {isInsertMode ? "hinzufügen" : "bearbeiten"}
+        Kunde {name} {isInsertMode ? 'hinzufügen' : 'bearbeiten'}
       </h1>
       <hr />
 
@@ -142,8 +142,8 @@ const CustomerDetails: FunctionComponent<Props> = props => {
           <label htmlFor="Name">Name</label>
           <input
             type="text"
-            className={classNames("form-control", {
-              "is-invalid": hasErrors("Name", problemDetails).length > 0
+            className={classNames('form-control', {
+              'is-invalid': hasErrors('Name', problemDetails).length > 0,
             })}
             id="Name"
             aria-describedby="NameHelp"
@@ -159,8 +159,8 @@ const CustomerDetails: FunctionComponent<Props> = props => {
           <label htmlFor="Location">Location</label>
           <input
             type="text"
-            className={classNames("form-control", {
-              "is-invalid": hasErrors("Location", problemDetails).length > 0
+            className={classNames('form-control', {
+              'is-invalid': hasErrors('Location', problemDetails).length > 0,
             })}
             id="Location"
             aria-describedby="LocationHelp"
@@ -177,7 +177,7 @@ const CustomerDetails: FunctionComponent<Props> = props => {
         </div>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default CustomerDetails;
+export default CustomerDetails
