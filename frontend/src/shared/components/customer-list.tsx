@@ -3,6 +3,8 @@ import { CustomerClient, ICustomerModel } from '../services/customer-client'
 import { LoadingState } from './loading-state'
 import CustomerCard from './customer-card'
 import Col from 'react-bootstrap/Col'
+import Alert from 'react-bootstrap/Alert'
+import Spinner from 'react-bootstrap/Spinner'
 
 const CustomerList: FunctionComponent = () => {
   const [loadingState, setLoadingState] = useState<LoadingState>(
@@ -38,30 +40,32 @@ const CustomerList: FunctionComponent = () => {
     case LoadingState.Loading:
       return (
         <Col>
-          <div className="spinner-border" role="status">
+          <Spinner animation="border" role="status">
             <span className="sr-only">Daten werden geladen...</span>
-          </div>
+          </Spinner>
         </Col>
       )
 
     case LoadingState.Error:
       return (
         <Col>
-          <div className="alert alert-danger" role="alert">
-            Es ist ein Fehler aufgetreten: {error}
-          </div>
+          <Alert variant="danger">Es ist ein Fehler aufgetreten: {error}</Alert>
         </Col>
       )
 
     case LoadingState.NoData:
-      return <>Keine Daten vorhanden</>
+      return (
+        <Col>
+          <Alert variant="info">Keine Daten vorhanden</Alert>
+        </Col>
+      )
 
     case LoadingState.HasData:
       return (
         <>
           {data &&
             data.map(x => (
-              <Col md={3} className="py-3">
+              <Col key={x.id} md={3} className="py-3">
                 <CustomerCard customer={x} />
               </Col>
             ))}
