@@ -1,21 +1,17 @@
-import React, {
-  FormEvent,
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import React, { FunctionComponent, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { useHistory } from 'react-router-dom'
 import {
   CustomerClient,
   CustomerModel,
+  ICustomerModel,
   ValidationProblemDetails,
 } from '../services/customer-client'
 import ProblemDetails, { hasErrors } from './problem-details'
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
+import { useAsync, useAsyncFn } from 'react-use'
+import Spinner from 'react-bootstrap/Spinner'
 
 interface Props {
   id?: number
@@ -36,7 +32,6 @@ const CustomerDetails: FunctionComponent<Props> = props => {
   })
   const { name, location } = customer
 
-  const [error, setError] = useState<string>()
   const [problemDetails, setProblemDetails] = useState<
     ValidationProblemDetails
   >()
@@ -46,60 +41,69 @@ const CustomerDetails: FunctionComponent<Props> = props => {
     [],
   )
 
-  const loadCustomer = useCallback(async () => {
-    if (id && id > 0) {
-      try {
-        const customer = await customerClient.get(id)
-        setCustomer(customer)
-      } catch (e) {
-        setError(e.message)
-      }
+  const { loading: loadingData, error: errorData } = useAsync(async () => {
+    if (id) {
+      const result = await customerClient.get(id)
+      setCustomer(result)
+      return result
     }
   }, [id, customerClient])
-
-  useEffect(() => {
-    loadCustomer()
-  }, [loadCustomer])
 
   const goToList = () => history.push('/customer/list')
 
   const handleBackClick = () => history.goBack()
-  const handleSaveClick = async () => {
+
+  const [
+    { loading: loadingSave, error: errorSave },
+    saveCustomer,
+  ] = useAsyncFn(async () => {
     try {
-      isInsertMode
-        ? await customerClient.insert(customer)
-        : await customerClient.update(customer)
+      if (isInsertMode) {
+        await customerClient.insert(customer)
+      } else {
+        await customerClient.update(customer)
+      }
       goToList()
     } catch (e) {
       if (e instanceof ValidationProblemDetails) {
         setProblemDetails(e)
-      } else {
-        setError(e.message)
       }
     }
-  }
+  }, [customer])
 
-  const handleDeleteClick = async () => {
+  const [
+    { loading: loadingDelete, error: errorDelete },
+    deleteCustomer,
+  ] = useAsyncFn(async () => {
     if (id && window.confirm(`Möchten Sie '${name}' wirklich löschen?`)) {
-      try {
-        await customerClient.delete(id)
-        goToList()
-      } catch (e) {
-        setError(e)
-      }
+      await customerClient.delete(id)
+      goToList()
     }
-  }
+  })
 
-  const handleNameChanged = (e: FormEvent<HTMLInputElement>) => {
+  const handleSaveClick = async () => await saveCustomer()
+  const handleDeleteClick = async () => await deleteCustomer()
+
+  const handleTextFieldChange = (
+    fieldName: keyof ICustomerModel,
+    value: string,
+  ) => {
     const changedCustomer = new CustomerModel()
-    changedCustomer.init({ ...customer, name: e.currentTarget.value })
+    changedCustomer.init({ ...customer, [fieldName]: value })
     setCustomer(changedCustomer)
   }
 
-  const handleLocationChanged = (e: FormEvent<HTMLInputElement>) => {
-    const changedCustomer = new CustomerModel()
-    changedCustomer.init({ ...customer, location: e.currentTarget.value })
-    setCustomer(changedCustomer)
+  const error = () => errorData || errorSave || errorDelete
+  const loading = () => loadingData || loadingSave || loadingDelete
+
+  if (loadingData) {
+    return (
+      <Alert variant="info">
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Kunde wird geladen...</span>
+        </Spinner>
+      </Alert>
+    )
   }
 
   return (
@@ -113,8 +117,10 @@ const CustomerDetails: FunctionComponent<Props> = props => {
         variant="primary"
         size="lg"
         className="mr-3"
+        disabled={loading()}
         onClick={handleSaveClick}
       >
+        {loadingSave && <Spinner animation="grow" />}
         Speichern
       </Button>
       {!isInsertMode && (
@@ -122,6 +128,7 @@ const CustomerDetails: FunctionComponent<Props> = props => {
           variant="danger"
           size="lg"
           className="mr-3"
+          disabled={loading()}
           onClick={handleDeleteClick}
         >
           Löschen
@@ -132,8 +139,11 @@ const CustomerDetails: FunctionComponent<Props> = props => {
       </Button>
       <hr />
 
-      {error && error.length > 0 && (
-        <Alert variant="danger">Es ist ein Fehler aufgetreten: {error}</Alert>
+      {error() && (
+        <Alert variant="danger">
+          Es ist ein Fehler aufgetreten:{' '}
+          <pre>{JSON.stringify(error(), null, 2) ?? ''}</pre>
+        </Alert>
       )}
 
       <form>
@@ -147,7 +157,7 @@ const CustomerDetails: FunctionComponent<Props> = props => {
             id="Name"
             aria-describedby="NameHelp"
             value={name}
-            onChange={handleNameChanged}
+            onChange={e => handleTextFieldChange('name', e.currentTarget.value)}
           />
           <small id="NameHelp" className="form-text text-muted">
             Name des Unternehmens, z. B. Microsoft
@@ -164,7 +174,9 @@ const CustomerDetails: FunctionComponent<Props> = props => {
             id="Location"
             aria-describedby="LocationHelp"
             value={location}
-            onChange={handleLocationChanged}
+            onChange={e =>
+              handleTextFieldChange('location', e.currentTarget.value)
+            }
           />
           <small id="LocationHelp" className="form-text text-muted">
             Sitz des Unternehmens, z. B. USA
