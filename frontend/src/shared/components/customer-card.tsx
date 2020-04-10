@@ -8,7 +8,7 @@ interface Props {
   customer: ICustomerModel
 }
 
-const CustomerCard: FunctionComponent<Props> = props => {
+const CustomerCard: FunctionComponent<Props> = (props) => {
   const {
     customer: { name, id, location },
   } = props

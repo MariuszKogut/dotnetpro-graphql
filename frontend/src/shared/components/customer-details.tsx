@@ -10,19 +10,24 @@ import {
 import ProblemDetails, { hasErrors } from './problem-details'
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
-import { useAsync, useAsyncFn } from 'react-use'
+import { useAsync, useAsyncFn, useLocalStorage, useNetwork } from 'react-use'
 import Spinner from 'react-bootstrap/Spinner'
+import OfflineMessage from './offline-message'
 
 interface Props {
   id?: number
 }
 
-const CustomerDetails: FunctionComponent<Props> = props => {
+const CustomerDetails: FunctionComponent<Props> = (props) => {
   const { id } = props
   const isInsertMode = id === undefined
 
   const history = useHistory()
-
+  const { online } = useNetwork()
+  const [offlineData, _] = useLocalStorage<ICustomerModel[]>(
+    'customer-list',
+    [],
+  )
   const [customer, setCustomer] = useState<CustomerModel>(() => {
     const customer = new CustomerModel()
     customer.id = isInsertMode ? undefined : id
@@ -42,10 +47,25 @@ const CustomerDetails: FunctionComponent<Props> = props => {
   )
 
   const { loading: loadingData, error: errorData } = useAsync(async () => {
+    const tryToSetCustomerFromLocalstorage = () => {
+      const customerFromStorage = offlineData.find((x) => x.id === id)
+      if (customerFromStorage) {
+        setCustomer(customerFromStorage)
+      }
+    }
+
     if (id) {
-      const result = await customerClient.get(id)
-      setCustomer(result)
-      return result
+      if (online === undefined || online) {
+        try {
+          const result = await customerClient.get(id)
+          setCustomer(result)
+          return result
+        } catch (e) {
+          tryToSetCustomerFromLocalstorage()
+        }
+      } else {
+        tryToSetCustomerFromLocalstorage()
+      }
     }
   }, [id, customerClient])
 
@@ -111,13 +131,16 @@ const CustomerDetails: FunctionComponent<Props> = props => {
       <h1 className="pb-3">
         Kunde {name} {isInsertMode ? 'hinzufügen' : 'bearbeiten'}
       </h1>
+
       <hr />
+
+      {online === false && <OfflineMessage />}
 
       <Button
         variant="primary"
         size="lg"
         className="mr-3"
-        disabled={loading()}
+        disabled={loading() || online === false}
         onClick={handleSaveClick}
       >
         {loadingSave && <Spinner animation="grow" />}
@@ -128,7 +151,7 @@ const CustomerDetails: FunctionComponent<Props> = props => {
           variant="danger"
           size="lg"
           className="mr-3"
-          disabled={loading()}
+          disabled={loading() || online === false}
           onClick={handleDeleteClick}
         >
           Löschen
@@ -157,7 +180,10 @@ const CustomerDetails: FunctionComponent<Props> = props => {
             id="Name"
             aria-describedby="NameHelp"
             value={name}
-            onChange={e => handleTextFieldChange('name', e.currentTarget.value)}
+            readOnly={online === false}
+            onChange={(e) =>
+              handleTextFieldChange('name', e.currentTarget.value)
+            }
           />
           <small id="NameHelp" className="form-text text-muted">
             Name des Unternehmens, z. B. Microsoft
@@ -174,7 +200,8 @@ const CustomerDetails: FunctionComponent<Props> = props => {
             id="Location"
             aria-describedby="LocationHelp"
             value={location}
-            onChange={e =>
+            readOnly={online === false}
+            onChange={(e) =>
               handleTextFieldChange('location', e.currentTarget.value)
             }
           />
