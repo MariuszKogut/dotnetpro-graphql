@@ -7,11 +7,15 @@ import {
 import { config } from '../../config'
 
 interface ApplicationInsightsContextType {
-  instance: ApplicationInsights
+  instance?: ApplicationInsights
 }
 
 const setupApplicationInsights = () => {
-  const { instrumentationKey, roleName } = config.applicationInsights
+  const { enabled, instrumentationKey, roleName } = config.applicationInsights
+
+  if (!enabled) {
+    return
+  }
 
   const applicationInsights = new ApplicationInsights({
     config: {
