@@ -8,26 +8,23 @@ import {
   ValidationProblemDetails,
 } from '../services/customer-client'
 import ProblemDetails, { hasErrors } from './problem-details'
-import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
 import { useAsync, useAsyncFn, useLocalStorage, useNetwork } from 'react-use'
 import Spinner from 'react-bootstrap/Spinner'
 import OfflineMessage from './offline-message'
+import ShortcutButton from './shortcut-button'
 
 interface Props {
   id?: number
 }
 
-const CustomerDetails: FunctionComponent<Props> = (props) => {
+const CustomerDetails: FunctionComponent<Props> = props => {
   const { id } = props
   const isInsertMode = id === undefined
 
   const history = useHistory()
   const { online } = useNetwork()
-  const [offlineData, _] = useLocalStorage<ICustomerModel[]>(
-    'customer-list',
-    [],
-  )
+  const [offlineData] = useLocalStorage<ICustomerModel[]>('customer-list', [])
   const [customer, setCustomer] = useState<CustomerModel>(() => {
     const customer = new CustomerModel()
     customer.id = isInsertMode ? undefined : id
@@ -48,9 +45,11 @@ const CustomerDetails: FunctionComponent<Props> = (props) => {
 
   const { loading: loadingData, error: errorData } = useAsync(async () => {
     const tryToSetCustomerFromLocalstorage = () => {
-      const customerFromStorage = offlineData.find((x) => x.id === id)
+      const customerFromStorage = offlineData.find(x => x.id === id)
       if (customerFromStorage) {
-        setCustomer(customerFromStorage)
+        const customer = new CustomerModel()
+        customer.init(customerFromStorage)
+        setCustomer(customer)
       }
     }
 
@@ -136,30 +135,37 @@ const CustomerDetails: FunctionComponent<Props> = (props) => {
 
       {online === false && <OfflineMessage />}
 
-      <Button
+      <ShortcutButton
         variant="primary"
         size="lg"
         className="mr-3"
         disabled={loading() || online === false}
+        keyboardShortcut="s"
         onClick={handleSaveClick}
       >
         {loadingSave && <Spinner animation="grow" />}
         Speichern
-      </Button>
+      </ShortcutButton>
       {!isInsertMode && (
-        <Button
+        <ShortcutButton
           variant="danger"
           size="lg"
           className="mr-3"
           disabled={loading() || online === false}
+          keyboardShortcut="d"
           onClick={handleDeleteClick}
         >
           Löschen
-        </Button>
+        </ShortcutButton>
       )}
-      <Button variant="secondary" size="lg" onClick={handleBackClick}>
+      <ShortcutButton
+        variant="secondary"
+        size="lg"
+        keyboardShortcut="b"
+        onClick={handleBackClick}
+      >
         Zurück
-      </Button>
+      </ShortcutButton>
       <hr />
 
       {error() && (
@@ -181,9 +187,7 @@ const CustomerDetails: FunctionComponent<Props> = (props) => {
             aria-describedby="NameHelp"
             value={name}
             readOnly={online === false}
-            onChange={(e) =>
-              handleTextFieldChange('name', e.currentTarget.value)
-            }
+            onChange={e => handleTextFieldChange('name', e.currentTarget.value)}
           />
           <small id="NameHelp" className="form-text text-muted">
             Name des Unternehmens, z. B. Microsoft
@@ -201,7 +205,7 @@ const CustomerDetails: FunctionComponent<Props> = (props) => {
             aria-describedby="LocationHelp"
             value={location}
             readOnly={online === false}
-            onChange={(e) =>
+            onChange={e =>
               handleTextFieldChange('location', e.currentTarget.value)
             }
           />

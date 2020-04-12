@@ -23,6 +23,7 @@ const CustomerListPage: FunctionComponent = () => {
             variant="primary"
             size="lg"
             disabled={online === false}
+            keyboardShortcut="n"
           >
             Kunde hinzufügen
           </LinkButton>
