@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProblemDetails renders empty list if fieldName does not match 1`] = `<div />`;
+
+exports[`ProblemDetails renders empty list if no ProblemDetails given 1`] = `<div />`;
+
+exports[`ProblemDetails renders one item if fieldName matches 1`] = `
+<div>
+  <div
+    class="invalid-feedback"
+  >
+    <span>
+      'Name' darf nicht leer sein.
+    </span>
+    <span>
+      Die Länge von 'Name' muss zwischen 3 und 255 Zeichen liegen. Es wurden 0 Zeichen eingetragen.
+    </span>
+  </div>
+</div>
+`;

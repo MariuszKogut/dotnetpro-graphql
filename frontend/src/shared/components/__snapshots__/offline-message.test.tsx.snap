@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OfflineMessage renders without errors 1`] = `
+<div>
+  <div
+    class="fade alert alert-warning show"
+    role="alert"
+  >
+    Sie sind gerade offline. Es wird eine lokale Kopie der Daten gezeigt. Diese kann von den aktuellen Daten abweichen.
+  </div>
+</div>
+`;

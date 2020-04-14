@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer renders without errors 1`] = `
+<div>
+  <footer
+    class="p-3"
+  >
+    <nav
+      class="navbar navbar-expand navbar-light bg-light fixed-bottom"
+    >
+      <div
+        class="mr-auto navbar-nav"
+      >
+        © 
+        2020
+      </div>
+    </nav>
+  </footer>
+</div>
+`;

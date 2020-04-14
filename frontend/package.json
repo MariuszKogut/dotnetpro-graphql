@@ -3,28 +3,31 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@microsoft/applicationinsights-web": "^2.5.3",
+    "@microsoft/applicationinsights-web": "^2.5.4",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
-    "cross-env": "^7.0.2",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "react-use": "^14.0.0",
+    "react-use": "^14.1.1",
     "typescript": "3.8.3"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.5.0",
+    "@testing-library/react": "^10.0.2",
+    "@sheerun/mutationobserver-shim": "^0.3.3",
     "@types/classnames": "^2.2.10",
     "@types/jest": "25.2.1",
-    "@types/node": "13.11.0",
-    "@types/react": "16.9.32",
+    "@types/node": "13.11.1",
+    "@types/react": "16.9.34",
     "@types/react-dom": "16.9.6",
-    "@types/react-router-dom": "^5.1.3",
+    "@types/react-router-dom": "^5.1.4",
+    "cross-env": "^7.0.2",
     "concurrently": "^5.1.0",
     "nswag": "^13.3.0",
-    "prettier": "^2.0.2"
+    "prettier": "^2.0.4"
   },
   "scripts": {
     "start": "react-scripts start",

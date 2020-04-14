@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShortCutButton renders with bootstrap specific options 1`] = `
+<div>
+  <button
+    class="btn btn-secondary"
+    type="button"
+  >
+    Button
+  </button>
+</div>
+`;
+
+exports[`ShortCutButton renders without errors 1`] = `
+<div>
+  <button
+    class="btn btn-primary"
+    type="button"
+  >
+    Button
+  </button>
+</div>
+`;
