@@ -2,6 +2,7 @@ import React from 'react'
 import { render, waitForElementToBeRemoved } from '@testing-library/react'
 import CustomerList from './customer-list'
 import { customerTestData } from '../../__testdata__/customer'
+import { act } from 'react-dom/test-utils'
 
 jest.mock('react-router-dom', () => ({
   useHistory: () => ({
@@ -48,9 +49,11 @@ describe('CustomerList', () => {
     const { container, queryByText } = render(<CustomerList />)
 
     // Assert
-    await waitForElementToBeRemoved(() =>
-      queryByText('Daten werden geladen...'),
-    )
+    await act(async () => {
+      await waitForElementToBeRemoved(() =>
+        queryByText('Daten werden geladen...'),
+      )
+    })
 
     expect(container).toMatchSnapshot()
   })

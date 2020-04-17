@@ -29,7 +29,7 @@ const Header: FunctionComponent = () => {
           <Nav>
             {online === false && (
               <Navbar.Text className="justify-content-end">
-                <Badge variant="warning"> Offline</Badge>
+                <Badge variant="warning">Offline</Badge>
               </Navbar.Text>
             )}
           </Nav>

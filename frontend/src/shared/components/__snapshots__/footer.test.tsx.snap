@@ -12,7 +12,7 @@ exports[`Footer renders without errors 1`] = `
         class="mr-auto navbar-nav"
       >
         © 
-        2020
+        1982
       </div>
     </nav>
   </footer>

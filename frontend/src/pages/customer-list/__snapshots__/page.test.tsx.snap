@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page renders without errors 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="py-3 row"
+    >
+      <div
+        class="col"
+      >
+        <h1
+          class="pb-3"
+        >
+          Kundenliste
+        </h1>
+        <hr />
+        <button
+          class="btn btn-primary btn-lg"
+          type="button"
+        >
+          Kunde hinzufügen
+        </button>
+        <hr />
+      </div>
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="col"
+      >
+        <div
+          class="spinner-border"
+          role="status"
+        >
+          <span
+            class="sr-only"
+          >
+            Daten werden geladen...
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
