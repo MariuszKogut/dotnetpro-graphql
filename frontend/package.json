@@ -37,7 +37,8 @@
     "build:strict": "cross-env ci=true react-scripts build",
     "generate:client": "nswag run ../backend/openapi.nswag /runtime:NetCore30",
     "prettify": "prettier --write \"./src/**/*.*(ts|tsx|json|js|html|css|scss)\"",
-    "test": "react-scripts test",
+    "test": "cross-env ci=true react-scripts test --coverage",
+    "test:update-snapshots": "cross-env ci=true react-scripts test -u",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -53,6 +54,11 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "/src/shared/services/customer-client.ts"
     ]
   }
 }
