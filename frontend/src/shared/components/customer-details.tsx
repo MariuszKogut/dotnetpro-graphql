@@ -18,7 +18,7 @@ interface Props {
   id?: number
 }
 
-const CustomerDetails: FunctionComponent<Props> = props => {
+const CustomerDetails: FunctionComponent<Props> = (props) => {
   const { id } = props
   const isInsertMode = id === undefined
 
@@ -45,7 +45,7 @@ const CustomerDetails: FunctionComponent<Props> = props => {
 
   const { loading: loadingData, error: errorData } = useAsync(async () => {
     const tryToSetCustomerFromLocalstorage = () => {
-      const customerFromStorage = offlineData.find(x => x.id === id)
+      const customerFromStorage = offlineData.find((x) => x.id === id)
       if (customerFromStorage) {
         const customer = new CustomerModel()
         customer.init(customerFromStorage)
@@ -187,7 +187,9 @@ const CustomerDetails: FunctionComponent<Props> = props => {
             aria-describedby="NameHelp"
             value={name}
             readOnly={online === false}
-            onChange={e => handleTextFieldChange('name', e.currentTarget.value)}
+            onChange={(e) =>
+              handleTextFieldChange('name', e.currentTarget.value)
+            }
           />
           <small id="NameHelp" className="form-text text-muted">
             Name des Unternehmens, z. B. Microsoft
@@ -205,7 +207,7 @@ const CustomerDetails: FunctionComponent<Props> = props => {
             aria-describedby="LocationHelp"
             value={location}
             readOnly={online === false}
-            onChange={e =>
+            onChange={(e) =>
               handleTextFieldChange('location', e.currentTarget.value)
             }
           />

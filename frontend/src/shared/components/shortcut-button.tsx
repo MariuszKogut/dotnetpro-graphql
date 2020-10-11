@@ -16,7 +16,7 @@ const ShortcutButton: FunctionComponent<ShortcutButtonProps> = ({
   ...rest
 }) => {
   useKey(
-    keyFilter =>
+    (keyFilter) =>
       keyboardShortcut !== undefined &&
       keyFilter.altKey &&
       keyFilter.ctrlKey &&

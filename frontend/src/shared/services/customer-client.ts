@@ -389,7 +389,8 @@ export interface IProblemDetails {
   extensions?: { [key: string]: any } | undefined
 }
 
-export class ValidationProblemDetails extends ProblemDetails
+export class ValidationProblemDetails
+  extends ProblemDetails
   implements IValidationProblemDetails {
   errors?: { [key: string]: string[] } | undefined
 

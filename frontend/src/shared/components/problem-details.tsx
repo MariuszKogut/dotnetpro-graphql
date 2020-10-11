@@ -17,7 +17,7 @@ interface Props {
   problemDetails?: IValidationProblemDetails
 }
 
-const ProblemDetails: FunctionComponent<Props> = props => {
+const ProblemDetails: FunctionComponent<Props> = (props) => {
   const { fieldName, problemDetails } = props
 
   const errors = useMemo(() => hasErrors(fieldName, problemDetails), [

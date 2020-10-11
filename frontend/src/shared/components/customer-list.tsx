@@ -73,7 +73,7 @@ const CustomerList: FunctionComponent = () => {
         )}
 
         {data &&
-          data.map(x => (
+          data.map((x) => (
             <Col key={x.id} md={3} className="py-3">
               <CustomerCard customer={x} />
             </Col>
