@@ -1,6 +1,8 @@
 using System;
 using FluentValidation;
-using FluentValidation.AspNetCore;
+using HotChocolate;
+using HotChocolate.AspNetCore;
+using HS.CustomerApp.CustomerHost.GraphQlTypes;
 using HS.CustomerApp.CustomerHost.Logic;
 using HS.CustomerApp.CustomerHost.Models;
 using HS.CustomerApp.HostConfiguration;
@@ -27,7 +29,6 @@ namespace HS.CustomerApp.CustomerHost
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCustomizedApplicationInsightsTelemetry(Configuration, "CustomerHost", Environment.MachineName);
-            services.AddControllers().AddFluentValidation();
             services.AddCors(options =>
             {
                 options.AddPolicy(CorsPolicyName,
@@ -40,11 +41,15 @@ namespace HS.CustomerApp.CustomerHost
                     });
             });
 
-            services.AddHttpClient();
             services.AddSingleton<ICustomerService, CustomerService>();
+            services.AddSingleton<IPersonService, PersonService>();
+            services.AddSingleton<IAddressService, AddressService>();
             services.AddTransient<IValidator<CustomerModel>, CustomerValidator>();
 
-            services.AddCustomizedSwagger();
+            services.AddGraphQL(
+                SchemaBuilder.New()
+                    .AddQueryType<QueryType>()
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,10 +63,9 @@ namespace HS.CustomerApp.CustomerHost
             app.UseCors(CorsPolicyName);
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
-            app.UseCustomizedSwagger();
+            app.UseGraphQL();
+            app.UseGraphiQL();
         }
     }
 }
