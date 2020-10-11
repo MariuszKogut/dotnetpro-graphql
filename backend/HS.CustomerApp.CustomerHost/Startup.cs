@@ -1,5 +1,4 @@
 using System;
-using System.Net.Http;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using HS.CustomerApp.CustomerHost.Logic;

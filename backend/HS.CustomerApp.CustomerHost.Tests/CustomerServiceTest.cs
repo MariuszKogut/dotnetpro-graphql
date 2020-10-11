@@ -1,10 +1,8 @@
-using System.Threading.Tasks;
+using System.Linq;
 using FluentAssertions;
 using HS.CustomerApp.CustomerHost.Logic;
 using HS.CustomerApp.CustomerHost.Models;
 using Microsoft.Extensions.Logging.Abstractions;
-using Moq;
-using Snapshooter.Xunit;
 using Xunit;
 
 namespace HS.CustomerApp.CustomerHost.Tests
@@ -21,24 +19,23 @@ namespace HS.CustomerApp.CustomerHost.Tests
             var result = sut.ReadAll();
 
             // Assert
-            Snapshot.Match(result);
+            result.Should().NotBeNullOrEmpty();
+            result.Count().Should().Be(100);
         }
 
-        [Theory]
-        [InlineData(1, "Microsoft")]
-        [InlineData(2, "Oracle")]
-        [InlineData(3, "IBM")]
-        public void ShouldReturnSingleCustomer(long id, string expectedName)
+        [Fact]
+        public void ShouldReturnSingleCustomer()
         {
             // Arrange
             var sut = new CustomerService(GetNullLogger());
 
             // Act
-            var result = sut.Read(id);
+            var result = sut.Read(1);
 
             // Assert
-            result.Id.Should().Be(id);
-            result.Name.Should().Be(expectedName);
+            result.Id.Should().Be(1);
+            result.Name.Should().NotBeNullOrEmpty();
+            result.Location.Should().NotBeNullOrEmpty();
         }
 
         [Fact]

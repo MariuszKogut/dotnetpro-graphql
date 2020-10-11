@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Bogus;
 using HS.CustomerApp.CustomerHost.Models;
 using Microsoft.Extensions.Logging;
 
@@ -9,21 +10,7 @@ namespace HS.CustomerApp.CustomerHost.Logic
     {
         private readonly ILogger<CustomerService> _logger;
 
-        private static readonly (string, string)[] Customers =
-        {
-            ("Microsoft", "USA"),
-            ("Oracle", "USA"),
-            ("IBM", "USA"),
-            ("SAP", "Germany"),
-            ("Synamtec", "USA"),
-            ("EMC", "USA"),
-            ("VMWare", "USA"),
-            ("HP", "USA"),
-            ("Salesforce.com", "USA"),
-            ("Intuit", "USA")
-        };
-
-        private readonly List<CustomerModel> _data = new List<CustomerModel>();
+        private List<CustomerModel> _data = new List<CustomerModel>();
 
         public CustomerService(ILogger<CustomerService> logger)
         {
@@ -54,14 +41,13 @@ namespace HS.CustomerApp.CustomerHost.Logic
 
         private void SeedSampleData()
         {
-            _data.AddRange(
-                Customers
-                    .Select((x, i) => new CustomerModel
-                    {
-                        Id = i + 1,
-                        Name = x.Item1,
-                        Location = x.Item2
-                    }));
+            var customerId = 0;
+
+            _data = new Faker<CustomerModel>()
+                .RuleFor(x => x.Id, (f, u) => customerId++)
+                .RuleFor(x => x.Name, (f, u) => f.Company.CompanyName())
+                .RuleFor(x => x.Location, (f, u) => f.Address.Country())
+                .Generate(100);
         }
     }
 }
