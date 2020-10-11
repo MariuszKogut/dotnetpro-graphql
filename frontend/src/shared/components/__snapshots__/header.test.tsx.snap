@@ -36,13 +36,15 @@ exports[`Header renders menu when it was clicked 1`] = `
               aria-haspopup="true"
               class="dropdown-toggle nav-link"
               href="#"
+              id="collasible-nav-dropdown"
               role="button"
             >
               Kunden
             </a>
             <div
-              aria-labelledby=""
+              aria-labelledby="collasible-nav-dropdown"
               class="dropdown-menu show"
+              style="margin: 0px;"
             >
               <a
                 class="dropdown-item"
@@ -106,6 +108,7 @@ exports[`Header renders offline badge if connection is broken 1`] = `
               aria-haspopup="true"
               class="dropdown-toggle nav-link"
               href="#"
+              id="collasible-nav-dropdown"
               role="button"
             >
               Kunden
@@ -167,6 +170,7 @@ exports[`Header renders without errors 1`] = `
               aria-haspopup="true"
               class="dropdown-toggle nav-link"
               href="#"
+              id="collasible-nav-dropdown"
               role="button"
             >
               Kunden
