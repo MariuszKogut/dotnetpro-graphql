@@ -45,7 +45,7 @@ const CustomerDetails: FunctionComponent<Props> = (props) => {
 
   const { loading: loadingData, error: errorData } = useAsync(async () => {
     const tryToSetCustomerFromLocalstorage = () => {
-      const customerFromStorage = offlineData.find((x) => x.id === id)
+      const customerFromStorage = offlineData?.find((x) => x.id === id)
       if (customerFromStorage) {
         const customer = new CustomerModel()
         customer.init(customerFromStorage)

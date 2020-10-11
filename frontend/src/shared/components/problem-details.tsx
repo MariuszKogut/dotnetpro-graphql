@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useMemo } from 'react'
-import { ValidationProblemDetails } from '../services/customer-client'
+import { IValidationProblemDetails } from '../services/customer-client'
 import Form from 'react-bootstrap/Form'
 
 export const hasErrors = (
   fieldName: string,
-  problemDetails?: ValidationProblemDetails,
+  problemDetails?: IValidationProblemDetails,
 ) =>
   problemDetails &&
   problemDetails.errors &&

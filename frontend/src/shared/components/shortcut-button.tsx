@@ -5,7 +5,7 @@ import { useKey } from 'react-use'
 
 export interface ShortcutButtonProps
   extends ButtonProps,
-    HTMLAttributes<HTMLButtonElement> {
+    HTMLAttributes<HTMLElement> {
   keyboardShortcut?: string
   onClick?: () => void
 }

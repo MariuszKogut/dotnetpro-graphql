@@ -19,9 +19,7 @@ const CustomerList: FunctionComponent = () => {
     [],
   )
 
-  const { loading, error, value: data } = useAsync<
-    ICustomerModel[] | undefined
-  >(async () => {
+  const { loading, error, value: data } = useAsync(async () => {
     if (online === undefined || online) {
       try {
         const data = await customerClient.getAll()
