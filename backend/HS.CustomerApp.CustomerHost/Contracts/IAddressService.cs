@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using HS.CustomerApp.CustomerHost.Models;
 
-namespace HS.CustomerApp.CustomerHost.Logic
+namespace HS.CustomerApp.CustomerHost.Contracts
 {
     public interface IAddressService
     {

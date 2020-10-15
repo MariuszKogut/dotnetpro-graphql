@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using HS.CustomerApp.CustomerHost.Models;
 
-namespace HS.CustomerApp.CustomerHost.Logic
+namespace HS.CustomerApp.CustomerHost.Contracts
 {
     public interface IPersonService
     {
         IEnumerable<PersonModel> ReadAll();
-        PersonModel Read(long id);
+        IEnumerable<PersonModel> ReadByIds(IEnumerable<int> employeesIds);
+        PersonModel Read(int id);
     }
 }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Bogus;
+using HS.CustomerApp.CustomerHost.Contracts;
 using HS.CustomerApp.CustomerHost.Models;
 using Microsoft.Extensions.Logging;
 
@@ -10,15 +10,15 @@ namespace HS.CustomerApp.CustomerHost.Logic
     {
         private readonly ILogger<CustomerService> _logger;
 
-        private List<CustomerModel> _data = new List<CustomerModel>();
+        private readonly List<CustomerModel> _data;
 
-        public CustomerService(ILogger<CustomerService> logger)
+        public CustomerService(IDataSeeder dataSeeder, ILogger<CustomerService> logger)
         {
             _logger = logger;
-            SeedSampleData();
+            _data = dataSeeder.Customers;
         }
 
-        public long Create(CustomerModel customerModel)
+        public int Create(CustomerModel customerModel)
         {
             var id = _data.Any() ? _data.Max(x => x.Id) + 1 : 1;
             customerModel.Id = id;
@@ -37,17 +37,6 @@ namespace HS.CustomerApp.CustomerHost.Logic
         {
             _logger.LogInformation("Delete customer with id {id}", id);
             _data.RemoveAll(x => x.Id == id);
-        }
-
-        private void SeedSampleData()
-        {
-            var customerId = 0;
-
-            _data = new Faker<CustomerModel>()
-                .RuleFor(x => x.Id, (f, u) => customerId++)
-                .RuleFor(x => x.Name, (f, u) => f.Company.CompanyName())
-                .RuleFor(x => x.Location, (f, u) => f.Address.Country())
-                .Generate(100);
         }
     }
 }

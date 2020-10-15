@@ -2,7 +2,7 @@ namespace HS.CustomerApp.CustomerHost.Models
 {
     public class AddressModel
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string Street { get; set; }
         public string StreetNo { get; set; }
         public string Zip { get; set; }
