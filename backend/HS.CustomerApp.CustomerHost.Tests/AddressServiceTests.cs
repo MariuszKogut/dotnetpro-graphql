@@ -11,7 +11,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
         public void ShouldReturnSingleAddress()
         {
             // Arrange
-            var sut = new AddressService();
+            var sut = new AddressService(new DataSeeder());
             
             // Act
             var result = sut.Read(1);
@@ -29,7 +29,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
         public void ShouldReturnManyAddresss()
         {
             // Arrange
-            var sut = new AddressService();
+            var sut = new AddressService(new DataSeeder());
             
             // Act
             var result = sut.ReadAll();

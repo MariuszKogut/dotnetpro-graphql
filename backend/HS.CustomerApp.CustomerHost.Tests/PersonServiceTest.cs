@@ -1,5 +1,6 @@
 using System.Linq;
 using FluentAssertions;
+using HS.CustomerApp.CustomerHost.Contracts;
 using HS.CustomerApp.CustomerHost.Logic;
 using Xunit;
 
@@ -11,7 +12,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
         public void ShouldReturnSinglePerson()
         {
             // Arrange
-            var sut = new PersonService();
+            var sut = new PersonService(new DataSeeder());
             
             // Act
             var result = sut.Read(1);
@@ -26,7 +27,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
         public void ShouldReturnManyPersons()
         {
             // Arrange
-            var sut = new PersonService();
+            var sut = new PersonService(new DataSeeder());
             
             // Act
             var result = sut.ReadAll();

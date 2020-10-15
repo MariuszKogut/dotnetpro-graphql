@@ -1,13 +1,15 @@
-using System.Collections.Generic;
-using HotChocolate;
-using HS.CustomerApp.CustomerHost.Logic;
-using HS.CustomerApp.CustomerHost.Models;
+using HotChocolate.Types;
+using HS.CustomerApp.CustomerHost.Contracts;
 
 namespace HS.CustomerApp.CustomerHost.GraphQlTypes
 {
-    public class QueryType
+    public class QueryType : ObjectType<Query>
     {
-        public IEnumerable<CustomerModel> GetCustomers([Service] ICustomerService customerService) =>
-            customerService.ReadAll();
+        protected override void Configure(IObjectTypeDescriptor<Query> descriptor)
+        {
+            descriptor.Field(x => x.Customers).Resolver(x => x.Service<ICustomerService>().ReadAll());
+            descriptor.Field(x => x.Persons).Resolver(x => x.Service<IPersonService>().ReadAll());
+            descriptor.Field(x => x.Address).Resolver(x => x.Service<IAddressService>().ReadAll());
+        }
     }
 }

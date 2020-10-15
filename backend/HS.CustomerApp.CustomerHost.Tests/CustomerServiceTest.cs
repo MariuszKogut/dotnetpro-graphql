@@ -1,8 +1,10 @@
 using System.Linq;
 using FluentAssertions;
+using HS.CustomerApp.CustomerHost.Contracts;
 using HS.CustomerApp.CustomerHost.Logic;
 using HS.CustomerApp.CustomerHost.Models;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using Xunit;
 
 namespace HS.CustomerApp.CustomerHost.Tests
@@ -13,7 +15,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
         public void ShouldReturnAllCustomers()
         {
             // Arrange
-            var sut = new CustomerService(GetNullLogger());
+            var sut = new CustomerService(GetDataSeeder(), GetNullLogger());
 
             // Act
             var result = sut.ReadAll();
@@ -27,7 +29,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
         public void ShouldReturnSingleCustomer()
         {
             // Arrange
-            var sut = new CustomerService(GetNullLogger());
+            var sut = new CustomerService(GetDataSeeder(), GetNullLogger());
 
             // Act
             var result = sut.Read(1);
@@ -42,7 +44,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
         public void ShouldDeleteCustomer()
         {
             // Arrange
-            var sut = new CustomerService(GetNullLogger());
+            var sut = new CustomerService(GetDataSeeder(), GetNullLogger());
 
             // Act
             sut.Delete(1);
@@ -56,7 +58,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
         public void ShouldAddCustomer()
         {
             // Arrange
-            var sut = new CustomerService(GetNullLogger());
+            var sut = new CustomerService(GetDataSeeder(), GetNullLogger());
             var customer = new CustomerModel
             {
                 Name = "Facebook",
@@ -77,7 +79,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
         public void ShouldUpdateCustomer()
         {
             // Arrange
-            var sut = new CustomerService(GetNullLogger());
+            var sut = new CustomerService(GetDataSeeder(), GetNullLogger());
             var customer = new CustomerModel
             {
                 Name = "Facebook",
@@ -100,5 +102,6 @@ namespace HS.CustomerApp.CustomerHost.Tests
         }
 
         private static NullLogger<CustomerService> GetNullLogger() => new NullLogger<CustomerService>();
+        private static IDataSeeder GetDataSeeder() => GetDataSeeder();
     }
 }
