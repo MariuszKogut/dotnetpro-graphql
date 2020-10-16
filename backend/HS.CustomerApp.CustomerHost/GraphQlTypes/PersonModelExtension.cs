@@ -1,5 +1,4 @@
 using HotChocolate;
-using HotChocolate.Resolvers;
 using HotChocolate.Types;
 using HS.CustomerApp.CustomerHost.Contracts;
 using HS.CustomerApp.CustomerHost.Models;
@@ -10,7 +9,7 @@ namespace HS.CustomerApp.CustomerHost.GraphQlTypes
     public class PersonModelExtension
     {
         public AddressModel
-            GetResidentialAddress([Service] IAddressService service, IResolverContext context) =>
-            service.Read(context.Parent<PersonModel>().ResidentialAddressId);
+            GetResidentialAddress([Service] IAddressService service, PersonModel personModel) =>
+            service.Read(personModel.ResidentialAddressId);
     }
 }
