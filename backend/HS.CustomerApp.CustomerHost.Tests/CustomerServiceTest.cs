@@ -102,6 +102,6 @@ namespace HS.CustomerApp.CustomerHost.Tests
         }
 
         private static NullLogger<CustomerService> GetNullLogger() => new NullLogger<CustomerService>();
-        private static IDataSeeder GetDataSeeder() => GetDataSeeder();
+        private static IDataSeeder GetDataSeeder() => new DataSeeder();
     }
 }

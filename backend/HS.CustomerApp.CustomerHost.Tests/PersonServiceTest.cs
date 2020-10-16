@@ -1,6 +1,5 @@
 using System.Linq;
 using FluentAssertions;
-using HS.CustomerApp.CustomerHost.Contracts;
 using HS.CustomerApp.CustomerHost.Logic;
 using Xunit;
 

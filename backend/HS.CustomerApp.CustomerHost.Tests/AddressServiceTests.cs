@@ -26,7 +26,7 @@ namespace HS.CustomerApp.CustomerHost.Tests
         }
 
         [Fact]
-        public void ShouldReturnManyAddresss()
+        public void ShouldReturnManyAddresses()
         {
             // Arrange
             var sut = new AddressService(new DataSeeder());
