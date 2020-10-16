@@ -50,9 +50,9 @@ namespace HS.CustomerApp.CustomerHost
 
             services.AddGraphQL(
                 SchemaBuilder.New()
-                    .AddQueryType<QueryType>()
-                    .AddType<CustomerType>()
-                    .AddType<PersonType>()
+                    .AddQueryType<Query>()
+                    .AddType<CustomerModelExtension>()
+                    .AddType<PersonModelExtension>()
             );
         }
 
