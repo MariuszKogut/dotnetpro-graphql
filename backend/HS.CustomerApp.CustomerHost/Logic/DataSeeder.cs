@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bogus;
@@ -16,6 +17,8 @@ namespace HS.CustomerApp.CustomerHost.Logic
         {
             var addressId = 0;
 
+            Randomizer.Seed = new Random(8675309);
+            
             Addresses = new Faker<AddressModel>()
                 .RuleFor(x => x.Id, (f) => addressId++)
                 .RuleFor(x => x.Street, (f) => f.Address.StreetName())

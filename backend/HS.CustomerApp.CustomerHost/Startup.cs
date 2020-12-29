@@ -1,11 +1,7 @@
 using System;
-using FluentValidation;
 using HotChocolate;
 using HotChocolate.AspNetCore;
-using HS.CustomerApp.CustomerHost.Contracts;
 using HS.CustomerApp.CustomerHost.GraphQlTypes;
-using HS.CustomerApp.CustomerHost.Logic;
-using HS.CustomerApp.CustomerHost.Models;
 using HS.CustomerApp.HostConfiguration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,11 +38,7 @@ namespace HS.CustomerApp.CustomerHost
                     });
             });
 
-            services.AddSingleton<ICustomerService, CustomerService>();
-            services.AddSingleton<IPersonService, PersonService>();
-            services.AddSingleton<IAddressService, AddressService>();
-            services.AddSingleton<IDataSeeder, DataSeeder>();
-            services.AddTransient<IValidator<CustomerModel>, CustomerValidator>();
+            services.AddServices();
 
             services.AddGraphQL(
                 SchemaBuilder.New()
