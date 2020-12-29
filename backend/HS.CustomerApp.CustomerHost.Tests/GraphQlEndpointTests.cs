@@ -1,9 +1,7 @@
-using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using HotChocolate;
 using HotChocolate.Execution;
-using HS.CustomerApp.CustomerHost.GraphQlTypes;
 using Microsoft.Extensions.DependencyInjection;
 using Snapshooter.Xunit;
 using Xunit;
@@ -13,74 +11,62 @@ namespace HS.CustomerApp.CustomerHost.Tests
     public class GraphQlEndpointTests
     {
         [Fact]
-        public void ShouldMatchSchema()
+        public async Task ShouldMatchSchema()
         {
             // arrange
-            ISchema schema = Schema.Create(c =>
-            {
-                c.RegisterQueryType<Query>();
-            });
+            ISchema schema =
+                await new ServiceCollection()
+                    .AddCustomServices()
+                    .AddLogging()
+                    .AddCustomGraphQl()
+                    .BuildSchemaAsync();
 
             // act
-            string schemaSDL = schema.ToString();
+            string result = schema.Print();
 
             // assert
-            schemaSDL.MatchSnapshot();
+            result.MatchSnapshot();
         }
 
         [Fact]
         public async Task ShouldResolveDeepQuery()
         {
             // arrange
-            IServiceProvider serviceProvider =
-                new ServiceCollection()
-                    .AddServices()
+            IRequestExecutor executor =
+                await new ServiceCollection()
+                    .AddCustomServices()
                     .AddLogging()
-                    .BuildServiceProvider();
-
-            IQueryExecutor executor = Schema.Create(c =>
-                {
-                    c.RegisterQueryType<Query>();
-                    c.RegisterType<CustomerModelExtension>();
-                    c.RegisterType<PersonModelExtension>();
-                })
-                .MakeExecutable();
-
-            IReadOnlyQueryRequest request =
-                QueryRequestBuilder
-                    .New()
-                    .SetQuery(@"
-                        {
-                          customers {
-                            id
-                            name
-                            location
-                            employees {
-                              id
-                              firstname
-                              lastname
-                              residentialAddress {
-                                street
-                                streetNo
-                                zip
-                                city
-                                country
-                              }
-                            }
-                          }
-                        }
-                        ")
-                    .SetServices(serviceProvider)
-                    .Create();
+                    .AddCustomGraphQl()
+                    .BuildRequestExecutorAsync();
 
             // act
-            var result = await executor.ExecuteAsync(request);
+            var result = await executor.ExecuteAsync(@"
+                {
+                  customers {
+                    id
+                    name
+                    location
+                    employees {
+                      id
+                      firstname
+                      lastname
+                      residentialAddress {
+                        street
+                        streetNo
+                        zip
+                        city
+                        country
+                      }
+                    }
+                  }
+                }
+                ");
 
             // assert
             result.Should().NotBeNull();
-            result.Errors.Should().BeEmpty();
-            
-            var resultAsJson = result.ToJson();
+            result.Errors.Should().BeNullOrEmpty();
+
+            var resultAsJson = await result.ToJsonAsync();
             resultAsJson.MatchSnapshot();
         }
     }

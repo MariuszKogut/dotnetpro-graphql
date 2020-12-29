@@ -1,6 +1,4 @@
 using System;
-using HotChocolate;
-using HotChocolate.AspNetCore;
 using HS.CustomerApp.CustomerHost.GraphQlTypes;
 using HS.CustomerApp.HostConfiguration;
 using Microsoft.AspNetCore.Builder;
@@ -38,14 +36,8 @@ namespace HS.CustomerApp.CustomerHost
                     });
             });
 
-            services.AddServices();
-
-            services.AddGraphQL(
-                SchemaBuilder.New()
-                    .AddQueryType<Query>()
-                    .AddType<CustomerModelExtension>()
-                    .AddType<PersonModelExtension>()
-            );
+            services.AddCustomServices();
+            services.AddCustomGraphQl();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,8 +52,10 @@ namespace HS.CustomerApp.CustomerHost
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            app.UseGraphQL();
-            app.UseGraphiQL();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapGraphQL();
+            });
         }
     }
 }

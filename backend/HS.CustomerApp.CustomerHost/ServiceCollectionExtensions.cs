@@ -1,5 +1,7 @@
 using FluentValidation;
+using HotChocolate.Execution.Configuration;
 using HS.CustomerApp.CustomerHost.Contracts;
+using HS.CustomerApp.CustomerHost.GraphQlTypes;
 using HS.CustomerApp.CustomerHost.Logic;
 using HS.CustomerApp.CustomerHost.Models;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,15 +10,19 @@ namespace HS.CustomerApp.CustomerHost
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddServices(this IServiceCollection services)
-        {
-            services.AddSingleton<ICustomerService, CustomerService>();
-            services.AddSingleton<IPersonService, PersonService>();
-            services.AddSingleton<IAddressService, AddressService>();
-            services.AddSingleton<IDataSeeder, DataSeeder>();
-            services.AddTransient<IValidator<CustomerModel>, CustomerValidator>();
+        public static IServiceCollection AddCustomServices(this IServiceCollection services) =>
+            services
+                .AddSingleton<ICustomerService, CustomerService>()
+                .AddSingleton<IPersonService, PersonService>()
+                .AddSingleton<IAddressService, AddressService>()
+                .AddSingleton<IDataSeeder, DataSeeder>()
+                .AddTransient<IValidator<CustomerModel>, CustomerValidator>();
 
-            return services;
-        }
+        public static IRequestExecutorBuilder AddCustomGraphQl(this IServiceCollection services) =>
+            services
+                .AddGraphQLServer()
+                .AddQueryType<Query>()
+                .AddType<CustomerModelExtension>()
+                .AddType<PersonModelExtension>();
     }
 }
