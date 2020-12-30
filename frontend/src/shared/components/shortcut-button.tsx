@@ -1,11 +1,9 @@
-import React, { FunctionComponent, HTMLAttributes } from 'react'
+import React, { FunctionComponent } from 'react'
 import { ButtonProps } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 import { useKey } from 'react-use'
 
-export interface ShortcutButtonProps
-  extends ButtonProps,
-    HTMLAttributes<HTMLElement> {
+export interface ShortcutButtonProps extends ButtonProps {
   keyboardShortcut?: string
   onClick?: () => void
 }

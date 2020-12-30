@@ -27,3 +27,4 @@ yarn-error.log*
 
 # custom
 config.ts
+.eslintcache

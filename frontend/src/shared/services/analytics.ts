@@ -41,11 +41,11 @@ const setupApplicationInsights = () => {
   return applicationInsights
 }
 
-export const ApplicationInsightsContext: Context<ApplicationInsightsContextType> = createContext<
-  ApplicationInsightsContextType
->({
-  instance: setupApplicationInsights(),
-})
+export const ApplicationInsightsContext: Context<ApplicationInsightsContextType> = createContext<ApplicationInsightsContextType>(
+  {
+    instance: setupApplicationInsights(),
+  },
+)
 
 export const useApplicationInsightsContext = () =>
   useContext<ApplicationInsightsContextType>(ApplicationInsightsContext)

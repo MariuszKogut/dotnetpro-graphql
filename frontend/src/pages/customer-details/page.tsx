@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 const CustomerDetailsPage: FunctionComponent = () => {
-  const { id } = useParams<{id: string}>()
+  const { id } = useParams<{ id: string }>()
   useTitle(`Kundendetails ${id ? ' > ' + id : ''}`)
   usePageTracking()
 

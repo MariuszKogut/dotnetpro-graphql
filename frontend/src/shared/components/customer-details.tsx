@@ -34,9 +34,10 @@ const CustomerDetails: FunctionComponent<Props> = (props) => {
   })
   const { name, location } = customer
 
-  const [problemDetails, setProblemDetails] = useState<
-    ValidationProblemDetails
-  >()
+  const [
+    problemDetails,
+    setProblemDetails,
+  ] = useState<ValidationProblemDetails>()
 
   const customerClient = useMemo<CustomerClient>(
     () => new CustomerClient('https://localhost:5001'),
