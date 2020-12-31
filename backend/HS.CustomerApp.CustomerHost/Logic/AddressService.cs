@@ -14,7 +14,7 @@ namespace HS.CustomerApp.CustomerHost.Logic
             _data = dataSeeder.Addresses;
         }
 
-        public IEnumerable<AddressModel> ReadAll() => _data;
+        public IQueryable<AddressModel> ReadAll() => _data.AsQueryable();
 
         public AddressModel Read(long id) => _data.FirstOrDefault(x => x.Id == id);
 

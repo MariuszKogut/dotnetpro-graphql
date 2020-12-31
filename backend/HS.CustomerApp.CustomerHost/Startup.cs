@@ -1,5 +1,4 @@
 using System;
-using HS.CustomerApp.CustomerHost.GraphQlTypes;
 using HS.CustomerApp.HostConfiguration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

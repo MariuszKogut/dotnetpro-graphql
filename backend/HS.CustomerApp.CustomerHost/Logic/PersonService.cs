@@ -14,10 +14,10 @@ namespace HS.CustomerApp.CustomerHost.Logic
             _data = dataSeeder.Persons;
         }
 
-        public IEnumerable<PersonModel> ReadAll() => _data;
+        public IQueryable<PersonModel> ReadAll() => _data.AsQueryable();
 
-        public IEnumerable<PersonModel> ReadByIds(IEnumerable<int> employeesIds) =>
-            _data.Where(x => employeesIds.Contains(x.Id));
+        public IQueryable<PersonModel> ReadByIds(IEnumerable<int> employeesIds) =>
+            _data.Where(x => employeesIds.Contains(x.Id)).AsQueryable();
 
         public PersonModel Read(int id) => _data.FirstOrDefault(x => x.Id == id);
 

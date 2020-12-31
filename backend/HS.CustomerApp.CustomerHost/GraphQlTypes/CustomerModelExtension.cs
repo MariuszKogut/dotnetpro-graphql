@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Linq;
 using HotChocolate;
 using HotChocolate.Types;
 using HS.CustomerApp.CustomerHost.Contracts;
@@ -9,8 +9,7 @@ namespace HS.CustomerApp.CustomerHost.GraphQlTypes
     [ExtendObjectType(Name = nameof(CustomerModel))]
     public class CustomerModelExtension
     {
-        public IEnumerable<PersonModel>
-            GetEmployees([Service] IPersonService service, CustomerModel customerModel) =>
+        public IQueryable<PersonModel> GetEmployees([Service] IPersonService service, CustomerModel customerModel) =>
             service.ReadByIds(customerModel.EmployeesIds);
     }
 }

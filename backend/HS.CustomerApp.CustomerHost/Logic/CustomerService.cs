@@ -26,7 +26,7 @@ namespace HS.CustomerApp.CustomerHost.Logic
             return id;
         }
 
-        public IEnumerable<CustomerModel> ReadAll() => _data;
+        public IEnumerable<CustomerModel> ReadAll() => _data.AsQueryable();
 
         public CustomerModel Read(long id) => _data.FirstOrDefault(x => x.Id == id);
 

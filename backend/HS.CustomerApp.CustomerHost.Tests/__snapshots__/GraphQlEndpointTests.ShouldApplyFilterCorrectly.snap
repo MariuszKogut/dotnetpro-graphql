@@ -1,0 +1,54 @@
+﻿{
+  "data": {
+    "customers": [
+      {
+        "name": "Zemlak Group",
+        "location": "Bolivia"
+      },
+      {
+        "name": "Walker, Bartell and Franecki",
+        "location": "Bahamas"
+      },
+      {
+        "name": "Waelchi Inc",
+        "location": "Barbados"
+      },
+      {
+        "name": "Veum and Sons",
+        "location": "Burkina Faso"
+      },
+      {
+        "name": "Stanton, Vandervort and Kunde",
+        "location": "Bouvet Island (Bouvetoya)"
+      },
+      {
+        "name": "Nikolaus, Ward and Herzog",
+        "location": "Ireland"
+      },
+      {
+        "name": "McClure - Bauch",
+        "location": "Ireland"
+      },
+      {
+        "name": "Littel, Lubowitz and Von",
+        "location": "Belarus"
+      },
+      {
+        "name": "Kunde Group",
+        "location": "Botswana"
+      },
+      {
+        "name": "King - Rice",
+        "location": "Brazil"
+      },
+      {
+        "name": "Breitenberg - Wehner",
+        "location": "Bouvet Island (Bouvetoya)"
+      },
+      {
+        "name": "Barrows - Jerde",
+        "location": "Bahamas"
+      }
+    ]
+  }
+}

@@ -22,6 +22,8 @@ namespace HS.CustomerApp.CustomerHost
             services
                 .AddGraphQLServer()
                 .AddQueryType<Query>()
+                .AddFiltering()
+                .AddSorting()
                 .AddType<CustomerModelExtension>()
                 .AddType<PersonModelExtension>();
     }

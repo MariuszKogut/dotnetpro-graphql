@@ -27,4 +27,8 @@
         <ProjectReference Include="..\HS.CustomerApp.CustomerHost\HS.CustomerApp.CustomerHost.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="__snapshots__\__mismatch__" />
+    </ItemGroup>
+
 </Project>
