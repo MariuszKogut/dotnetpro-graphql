@@ -5,4 +5,4 @@ GraphQL mit C# & .NET Core.
 https://github.com/MariuszKogut/dotnetpro-graphql/tree/Part1, dotnetpro 1/2021
 
 ## Teil 2
-tbd 
+https://github.com/MariuszKogut/dotnetpro-graphql/tree/Part2, dotnetpro ?/2021
