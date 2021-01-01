@@ -1,0 +1,19 @@
+query GetCustomers {
+    customers {
+        id
+        name
+        location
+    }
+}
+
+query GetCustomer($id: Int!) {
+    customer(id: $id) {
+        id
+        name
+        location
+    }
+}
+
+mutation CreateCustomer($customer: CreateCustomerModelInput!) {
+    createCustomer(input: $customer)
+}

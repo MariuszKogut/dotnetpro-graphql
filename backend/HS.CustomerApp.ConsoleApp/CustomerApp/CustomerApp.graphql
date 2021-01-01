@@ -1,0 +1,160 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Mutation {
+  createCustomer(input: CreateCustomerModelInput): Int!
+  updateCustomerLocation(id: Long! location: String): CustomerModel
+}
+
+type Query {
+  customers(where: CustomerModelFilterInput order: [CustomerModelSortInput!]): [CustomerModel]
+  customer(id: Int!): CustomerModel
+  persons(where: PersonModelFilterInput order: [PersonModelSortInput!]): [PersonModel]
+  addresses(where: AddressModelFilterInput order: [AddressModelSortInput!]): [AddressModel]
+}
+
+input CustomerModelFilterInput {
+  and: [CustomerModelFilterInput!]
+  or: [CustomerModelFilterInput!]
+  id: ComparableInt32OperationFilterInput
+  name: StringOperationFilterInput
+  location: StringOperationFilterInput
+  employeesIds: ListComparableInt32OperationFilterInput
+}
+
+input CustomerModelSortInput {
+  id: SortEnumType
+  name: SortEnumType
+  location: SortEnumType
+}
+
+input PersonModelFilterInput {
+  and: [PersonModelFilterInput!]
+  or: [PersonModelFilterInput!]
+  id: ComparableInt32OperationFilterInput
+  firstname: StringOperationFilterInput
+  lastname: StringOperationFilterInput
+  residentialAddressId: ComparableInt32OperationFilterInput
+}
+
+input PersonModelSortInput {
+  id: SortEnumType
+  firstname: SortEnumType
+  lastname: SortEnumType
+  residentialAddressId: SortEnumType
+}
+
+input AddressModelFilterInput {
+  and: [AddressModelFilterInput!]
+  or: [AddressModelFilterInput!]
+  id: ComparableInt32OperationFilterInput
+  street: StringOperationFilterInput
+  streetNo: StringOperationFilterInput
+  zip: StringOperationFilterInput
+  city: StringOperationFilterInput
+  country: StringOperationFilterInput
+}
+
+input AddressModelSortInput {
+  id: SortEnumType
+  street: SortEnumType
+  streetNo: SortEnumType
+  zip: SortEnumType
+  city: SortEnumType
+  country: SortEnumType
+}
+
+input ComparableInt32OperationFilterInput {
+  eq: Int
+  neq: Int
+  in: [Int!]
+  nin: [Int!]
+  gt: Int
+  ngt: Int
+  gte: Int
+  ngte: Int
+  lt: Int
+  nlt: Int
+  lte: Int
+  nlte: Int
+}
+
+input StringOperationFilterInput {
+  and: [StringOperationFilterInput!]
+  or: [StringOperationFilterInput!]
+  eq: String
+  neq: String
+  contains: String
+  ncontains: String
+  in: [String]
+  nin: [String]
+  startsWith: String
+  nstartsWith: String
+  endsWith: String
+  nendsWith: String
+}
+
+input ListComparableInt32OperationFilterInput {
+  all: ComparableInt32OperationFilterInput
+  none: ComparableInt32OperationFilterInput
+  some: ComparableInt32OperationFilterInput
+  any: Boolean
+}
+
+enum SortEnumType {
+  ASC
+  DESC
+}
+
+type PersonModel {
+  id: Int!
+  firstname: String
+  lastname: String
+  residentialAddressId: Int!
+  residentialAddress(personModel: PersonModelInput where: AddressModelFilterInput order: [AddressModelSortInput!]): AddressModel
+}
+
+input CreateCustomerModelInput {
+  name: String
+  location: String
+  employeesIds: [Int!]
+}
+
+type CustomerModel {
+  id: Int!
+  name: String
+  location: String
+  employeesIds: [Int!]
+  employees(customerModel: CustomerModelInput where: PersonModelFilterInput order: [PersonModelSortInput!]): [PersonModel]
+}
+
+type AddressModel {
+  id: Int!
+  street: String
+  streetNo: String
+  zip: String
+  city: String
+  country: String
+}
+
+input CustomerModelInput {
+  id: Int!
+  name: String
+  location: String
+  employeesIds: [Int!]
+}
+
+input PersonModelInput {
+  id: Int!
+  firstname: String
+  lastname: String
+  residentialAddressId: Int!
+}
+
+"The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."
+directive @defer("If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to." label: String "Deferred when true." if: Boolean) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`."
+directive @stream("If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to." label: String "The initial elements that shall be send down to the consumer." initialCount: Int! "Streamed when true." if: Boolean!) on FIELD

@@ -1,0 +1,160 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type AddressModel {
+    city: String
+    country: String
+    id: Int!
+    street: String
+    streetNo: String
+    zip: String
+}
+
+type CustomerModel {
+    employees(customerModel: CustomerModelInput, order: [PersonModelSortInput!], where: PersonModelFilterInput): [PersonModel]
+    employeesIds: [Int!]
+    id: Int!
+    location: String
+    name: String
+}
+
+type Mutation {
+    createCustomer(input: CreateCustomerModelInput): Int!
+    updateCustomerLocation(id: Long!, location: String): CustomerModel
+}
+
+type PersonModel {
+    firstname: String
+    id: Int!
+    lastname: String
+    residentialAddress(order: [AddressModelSortInput!], personModel: PersonModelInput, where: AddressModelFilterInput): AddressModel
+    residentialAddressId: Int!
+}
+
+type Query {
+    addresses(order: [AddressModelSortInput!], where: AddressModelFilterInput): [AddressModel]
+    customer(id: Int!): CustomerModel
+    customers(order: [CustomerModelSortInput!], where: CustomerModelFilterInput): [CustomerModel]
+    persons(order: [PersonModelSortInput!], where: PersonModelFilterInput): [PersonModel]
+}
+
+enum SortEnumType {
+    ASC
+    DESC
+}
+
+input AddressModelFilterInput {
+    and: [AddressModelFilterInput!]
+    city: StringOperationFilterInput
+    country: StringOperationFilterInput
+    id: ComparableInt32OperationFilterInput
+    or: [AddressModelFilterInput!]
+    street: StringOperationFilterInput
+    streetNo: StringOperationFilterInput
+    zip: StringOperationFilterInput
+}
+
+input AddressModelSortInput {
+    city: SortEnumType
+    country: SortEnumType
+    id: SortEnumType
+    street: SortEnumType
+    streetNo: SortEnumType
+    zip: SortEnumType
+}
+
+input ComparableInt32OperationFilterInput {
+    eq: Int
+    gt: Int
+    gte: Int
+    in: [Int!]
+    lt: Int
+    lte: Int
+    neq: Int
+    ngt: Int
+    ngte: Int
+    nin: [Int!]
+    nlt: Int
+    nlte: Int
+}
+
+input CreateCustomerModelInput {
+    employeesIds: [Int!]
+    location: String
+    name: String
+}
+
+input CustomerModelFilterInput {
+    and: [CustomerModelFilterInput!]
+    employeesIds: ListComparableInt32OperationFilterInput
+    id: ComparableInt32OperationFilterInput
+    location: StringOperationFilterInput
+    name: StringOperationFilterInput
+    or: [CustomerModelFilterInput!]
+}
+
+input CustomerModelInput {
+    employeesIds: [Int!]
+    id: Int!
+    location: String
+    name: String
+}
+
+input CustomerModelSortInput {
+    id: SortEnumType
+    location: SortEnumType
+    name: SortEnumType
+}
+
+input ListComparableInt32OperationFilterInput {
+    all: ComparableInt32OperationFilterInput
+    any: Boolean
+    none: ComparableInt32OperationFilterInput
+    some: ComparableInt32OperationFilterInput
+}
+
+input PersonModelFilterInput {
+    and: [PersonModelFilterInput!]
+    firstname: StringOperationFilterInput
+    id: ComparableInt32OperationFilterInput
+    lastname: StringOperationFilterInput
+    or: [PersonModelFilterInput!]
+    residentialAddressId: ComparableInt32OperationFilterInput
+}
+
+input PersonModelInput {
+    firstname: String
+    id: Int!
+    lastname: String
+    residentialAddressId: Int!
+}
+
+input PersonModelSortInput {
+    firstname: SortEnumType
+    id: SortEnumType
+    lastname: SortEnumType
+    residentialAddressId: SortEnumType
+}
+
+input StringOperationFilterInput {
+    and: [StringOperationFilterInput!]
+    contains: String
+    endsWith: String
+    eq: String
+    in: [String]
+    ncontains: String
+    nendsWith: String
+    neq: String
+    nin: [String]
+    nstartsWith: String
+    or: [StringOperationFilterInput!]
+    startsWith: String
+}
+
+
+"The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
+scalar Long
