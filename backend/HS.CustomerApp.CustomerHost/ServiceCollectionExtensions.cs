@@ -21,6 +21,7 @@ namespace HS.CustomerApp.CustomerHost
         public static IRequestExecutorBuilder AddCustomGraphQl(this IServiceCollection services) =>
             services
                 .AddGraphQLServer()
+                .AddMutationType<Mutation>()
                 .AddQueryType<Query>()
                 .AddFiltering()
                 .AddSorting()

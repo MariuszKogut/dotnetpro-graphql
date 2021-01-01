@@ -1,5 +1,6 @@
 ﻿schema {
   query: Query
+  mutation: Mutation
 }
 
 type AddressModel {
@@ -16,7 +17,12 @@ type CustomerModel {
   name: String
   location: String
   employeesIds: [Int!]
-  employees(customerModel: CustomerModelInput): [PersonModel]
+  employees(customerModel: CustomerModelInput where: PersonModelFilterInput order: [PersonModelSortInput!]): [PersonModel]
+}
+
+type Mutation {
+  createCustomer(input: CreateCustomerModelInput): Int!
+  updateCustomerLocation(id: Long! location: String): CustomerModel
 }
 
 type PersonModel {
@@ -24,14 +30,34 @@ type PersonModel {
   firstname: String
   lastname: String
   residentialAddressId: Int!
-  residentialAddress(personModel: PersonModelInput): AddressModel
+  residentialAddress(personModel: PersonModelInput where: AddressModelFilterInput order: [AddressModelSortInput!]): AddressModel
 }
 
 type Query {
   customers(where: CustomerModelFilterInput order: [CustomerModelSortInput!]): [CustomerModel]
   customer(id: Int!): CustomerModel
-  persons: [PersonModel]
-  addresses: [AddressModel]
+  persons(where: PersonModelFilterInput order: [PersonModelSortInput!]): [PersonModel]
+  addresses(where: AddressModelFilterInput order: [AddressModelSortInput!]): [AddressModel]
+}
+
+input AddressModelFilterInput {
+  and: [AddressModelFilterInput!]
+  or: [AddressModelFilterInput!]
+  id: ComparableInt32OperationFilterInput
+  street: StringOperationFilterInput
+  streetNo: StringOperationFilterInput
+  zip: StringOperationFilterInput
+  city: StringOperationFilterInput
+  country: StringOperationFilterInput
+}
+
+input AddressModelSortInput {
+  id: SortEnumType
+  street: SortEnumType
+  streetNo: SortEnumType
+  zip: SortEnumType
+  city: SortEnumType
+  country: SortEnumType
 }
 
 input ComparableInt32OperationFilterInput {
@@ -47,6 +73,12 @@ input ComparableInt32OperationFilterInput {
   nlt: Int
   lte: Int
   nlte: Int
+}
+
+input CreateCustomerModelInput {
+  name: String
+  location: String
+  employeesIds: [Int!]
 }
 
 input CustomerModelFilterInput {
@@ -78,11 +110,27 @@ input ListComparableInt32OperationFilterInput {
   any: Boolean
 }
 
+input PersonModelFilterInput {
+  and: [PersonModelFilterInput!]
+  or: [PersonModelFilterInput!]
+  id: ComparableInt32OperationFilterInput
+  firstname: StringOperationFilterInput
+  lastname: StringOperationFilterInput
+  residentialAddressId: ComparableInt32OperationFilterInput
+}
+
 input PersonModelInput {
   id: Int!
   firstname: String
   lastname: String
   residentialAddressId: Int!
+}
+
+input PersonModelSortInput {
+  id: SortEnumType
+  firstname: SortEnumType
+  lastname: SortEnumType
+  residentialAddressId: SortEnumType
 }
 
 input StringOperationFilterInput {
@@ -119,3 +167,6 @@ directive @skip("Skipped when true." if: Boolean!) on FIELD | FRAGMENT_SPREAD | 
 
 "The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`."
 directive @stream("If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to." label: String "The initial elements that shall be send down to the consumer." initialCount: Int! "Streamed when true." if: Boolean!) on FIELD
+
+"The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
+scalar Long

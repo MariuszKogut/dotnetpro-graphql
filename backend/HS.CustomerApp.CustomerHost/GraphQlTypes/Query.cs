@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using HotChocolate;
 using HotChocolate.Data;
@@ -15,7 +14,13 @@ namespace HS.CustomerApp.CustomerHost.GraphQlTypes
         
         public CustomerModel GetCustomer(int id, [Service] ICustomerService service) =>
             service.Read(id);
+
+        [UseFiltering()]
+        [UseSorting()]
         public IQueryable<PersonModel> GetPersons([Service] IPersonService service) => service.ReadAll();
+        
+        [UseFiltering()]
+        [UseSorting()]
         public IQueryable<AddressModel> GetAddresses([Service] IAddressService service) => service.ReadAll();
     }
 }

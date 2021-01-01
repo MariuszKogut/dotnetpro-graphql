@@ -88,8 +88,8 @@ namespace HS.CustomerApp.CustomerHost.Tests
             var resultAsJson = await result.ToJsonAsync();
             resultAsJson.MatchSnapshot();
         }
-        [Fact]
 
+        [Fact]
         public async Task ShouldApplyFilterCorrectly()
         {
             // arrange
@@ -111,6 +111,32 @@ namespace HS.CustomerApp.CustomerHost.Tests
                      location
                     }
                 }
+                ");
+
+            // assert
+            result.Should().NotBeNull();
+            result.Errors.Should().BeNullOrEmpty();
+
+            var resultAsJson = await result.ToJsonAsync();
+            resultAsJson.MatchSnapshot();
+        }
+
+        [Fact]
+        public async void ShouldCreateCustomer()
+        {
+            // arrange
+            var executor = await GetRequestExecutor();
+
+            // act
+            var result = await executor.ExecuteAsync(@"
+                mutation CreateCustomer {
+                  createCustomer(
+                    input: {
+                      location: ""Germany"",
+                       name: ""Handmade Systems""
+                     }
+                  )
+                }                
                 ");
 
             // assert
